@@ -1704,3 +1704,564 @@ html { color-scheme: light; }
     margin-left: 0.5rem !important;
   }
 }
+
+/* =========================
+  MAPA INTERACTIVO ENERGÍAS RENOVABLES
+  ========================= */
+.mapa-renovables-section {
+   margin: 4rem 0;
+   padding: 3rem 2rem;
+   background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+   border-radius: 20px;
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   width: 100%;
+   max-width: none;
+}
+
+/* Sobrescribir wrapper para el mapa */
+.mapa-renovables-section.wrapper {
+   width: 95%;
+   max-width: 1300px;
+   margin: 4rem auto;
+}
+
+/* Sobrescribir wrapper para features */
+.features-section.wrapper {
+   width: 95%;
+   max-width: 1200px;
+   margin: 4rem auto;
+   padding: 3rem 2rem;
+   background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+   border-radius: 20px;
+   box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+}
+
+/* Info card dentro de features */
+.features-section.wrapper .info-card {
+   text-align: center;
+   margin-bottom: 3rem;
+   background: white;
+   padding: 2.5rem;
+   border-radius: 15px;
+   box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+   border: 1px solid #e9ecef;
+}
+
+.features-section.wrapper .info-card h2 {
+   color: var(--primary-color);
+   font-size: 2rem;
+   margin-bottom: 1rem;
+   font-family: var(--heading-font);
+   font-weight: 700;
+}
+
+.features-section.wrapper .info-card p {
+   color: #6c757d;
+   font-size: 1.1rem;
+   max-width: 600px;
+   margin: 0 auto;
+   line-height: 1.6;
+}
+
+.mapa-header {
+   text-align: center;
+   margin-bottom: 3rem;
+}
+
+.mapa-header h2 {
+   color: var(--primary-color);
+   font-size: 2.2rem;
+   margin-bottom: 1rem;
+   font-family: var(--heading-font);
+   font-weight: 700;
+}
+
+.mapa-header p {
+   color: #6c757d;
+   font-size: 1.1rem;
+   max-width: 600px;
+   margin: 0 auto;
+}
+
+.mapa-container {
+   display: flex;
+   flex-direction: row;
+   gap: 3rem;
+   margin: 0 auto;
+   padding: 2rem;
+   align-items: flex-start;
+   justify-content: center;
+   max-width: 1200px;
+   width: calc(100% - 2rem);
+   background: white;
+   border-radius: 15px;
+   box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+}
+
+.mapa-lado-izquierdo {
+   display: flex;
+   flex-direction: row;
+   gap: 2rem;
+   flex: 2.5;
+   align-items: flex-start;
+}
+
+.mapa-superior {
+  display: flex;
+  flex-direction: row;
+  gap: 2rem;
+  align-items: flex-start;
+  width: 100%;
+}
+
+.mapa-interactivo {
+   background: var(--white-color);
+   border-radius: 15px;
+   padding: 1.5rem;
+   box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+   transition: box-shadow 0.3s ease;
+   flex: 2;
+   min-width: 400px;
+   max-width: 550px;
+}
+
+.mapa-interactivo:hover {
+   box-shadow: 0 6px 25px rgba(0,0,0,0.15);
+}
+
+.mapa-svg {
+   width: 100%;
+   height: auto;
+   max-height: 500px;
+   display: block;
+   margin: 0 auto;
+}
+
+.departamento {
+   cursor: pointer;
+   stroke: var(--primary-color);
+   stroke-width: 2;
+   transition: all 0.3s ease;
+}
+
+.departamento.alto {
+   fill: #28a745;
+}
+
+.departamento.medio {
+   fill: var(--accent-color);
+}
+
+.departamento.bajo {
+   fill: #dc3545;
+}
+
+.departamento:hover {
+   stroke-width: 3;
+   filter: brightness(1.1);
+   transform: scale(1.02);
+   transform-origin: center;
+}
+
+.label-departamento {
+   font-size: 12px;
+   font-weight: 600;
+   fill: var(--primary-color);
+   pointer-events: none;
+   font-family: var(--heading-font);
+}
+
+.mapa-leyenda {
+   background: var(--white-color);
+   border-radius: 15px;
+   padding: 1.5rem;
+   box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+   height: fit-content;
+   transition: box-shadow 0.3s ease;
+   flex: 1;
+   min-width: 250px;
+   max-width: 280px;
+}
+
+.mapa-leyenda:hover {
+   box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+}
+
+.mapa-leyenda h3 {
+   color: var(--primary-color);
+   margin-bottom: 1rem;
+   font-size: 1.2rem;
+   font-family: var(--heading-font);
+   font-weight: 600;
+}
+
+.leyenda-item {
+   display: flex;
+   align-items: center;
+   margin-bottom: 0.8rem;
+   font-size: 0.9rem;
+   transition: transform 0.2s ease;
+}
+
+.leyenda-item:hover {
+   transform: translateX(5px);
+}
+
+.leyenda-item span:first-child {
+   width: 20px;
+   height: 20px;
+   border-radius: 4px;
+   margin-right: 0.8rem;
+   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.color-alto {
+   background: #28a745;
+}
+
+.color-medio {
+   background: var(--accent-color);
+}
+
+.color-bajo {
+   background: #dc3545;
+}
+
+.info-panel {
+   background: var(--white-color);
+   border-radius: 15px;
+   padding: 2rem;
+   box-shadow: 0 6px 25px rgba(0,0,0,0.15);
+   position: relative;
+   animation: slideIn 0.3s ease-out;
+   border: 1px solid #e9ecef;
+}
+
+@keyframes slideIn {
+   from { 
+      opacity: 0; 
+      transform: translateY(20px); 
+   }
+   to { 
+      opacity: 1; 
+      transform: translateY(0); 
+   }
+}
+
+.cerrar-panel {
+   position: absolute;
+   top: 1rem;
+   right: 1rem;
+   background: none;
+   border: none;
+   font-size: 1.5rem;
+   cursor: pointer;
+   color: #6c757d;
+   width: 30px;
+   height: 30px;
+   border-radius: 50%;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   transition: all 0.2s ease;
+}
+
+.cerrar-panel:hover {
+   background: #f8f9fa;
+   color: #dc3545;
+   transform: rotate(90deg);
+}
+
+.stats-grid {
+   display: grid;
+   grid-template-columns: repeat(2, 1fr);
+   gap: 1.5rem;
+   margin: 1.5rem 0;
+}
+
+.stat-item {
+   text-align: center;
+   padding: 1rem;
+   background: #f8f9fa;
+   border-radius: 10px;
+   transition: all 0.3s ease;
+   border: 1px solid #e9ecef;
+}
+
+.stat-item:hover {
+   background: var(--light-gray-color);
+   transform: translateY(-2px);
+   box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.stat-numero {
+   display: block;
+   font-size: 1.8rem;
+   font-weight: 700;
+   color: var(--primary-color);
+   margin-bottom: 0.5rem;
+   font-family: var(--heading-font);
+}
+
+.stat-label {
+   font-size: 0.9rem;
+   color: #6c757d;
+   font-weight: 600;
+}
+
+.proyectos-lista {
+   margin-top: 2rem;
+}
+
+.proyectos-lista h4 {
+   color: var(--primary-color);
+   margin-bottom: 1rem;
+   font-family: var(--heading-font);
+   font-weight: 600;
+}
+
+.proyectos-lista ul {
+   list-style: none;
+   padding: 0;
+}
+
+.proyectos-lista li {
+   padding: 0.8rem;
+   background: #f8f9fa;
+   border-radius: 8px;
+   margin-bottom: 0.5rem;
+   border-left: 4px solid var(--secondary-color);
+   transition: all 0.3s ease;
+}
+
+.proyectos-lista li:hover {
+   background: var(--light-gray-color);
+   transform: translateX(5px);
+   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+/* Calculadora dentro del mapa */
+.mapa-container .calculator-section {
+   flex: 1;
+   min-width: 350px;
+   max-width: 420px;
+   height: fit-content;
+   position: sticky;
+   top: 20px;
+}
+
+.mapa-container .calculator-section h2 {
+   font-size: 1.4rem;
+   margin-bottom: 1.2rem;
+}
+
+.mapa-container #ahorro-calc-form input[type="number"] {
+   font-size: 0.9rem;
+   padding: 8px 10px;
+}
+
+.mapa-container .calc-result {
+   font-size: 0.9rem;
+   padding: 0.8rem;
+   margin-bottom: 0.8rem;
+}
+
+/* Features grid para la nueva sección */
+.features-grid {
+   display: grid;
+   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+   gap: 2rem;
+   margin-top: 2rem;
+}
+
+/* Responsive para mapa interactivo */
+@media (max-width: 1024px) {
+   .mapa-renovables-section.wrapper {
+      width: 95%;
+      max-width: 100%;
+   }
+   
+   .mapa-container {
+      max-width: 100%;
+      padding: 1.5rem;
+      gap: 2rem;
+   }
+   
+   .features-section.wrapper {
+      width: 95%;
+      max-width: 100%;
+      padding: 2rem 1.5rem;
+   }
+}
+
+@media (max-width: 768px) {
+   .mapa-renovables-section.wrapper {
+      width: 100%;
+      margin: 2rem auto;
+      padding: 2rem 1rem;
+   }
+   
+   .mapa-container {
+      flex-direction: column;
+      gap: 1.5rem;
+      align-items: center;
+      padding: 1rem;
+      max-width: 100%;
+   }
+   
+   .features-section.wrapper {
+      width: 100%;
+      padding: 1.5rem 0.5rem;
+   }
+   
+   .info-card {
+      padding: 1.5rem;
+   }
+   
+   .mapa-lado-izquierdo {
+      flex-direction: column;
+      width: 100%;
+      order: 1;
+   }
+   
+   .mapa-interactivo {
+      max-width: 100%;
+      min-width: 300px;
+      margin: 0 auto;
+   }
+   
+   .mapa-leyenda {
+      width: 100%;
+      max-width: 400px;
+      margin: 0 auto;
+      min-width: 280px;
+   }
+   
+   .mapa-container .calculator-section {
+      order: 2;
+      max-width: 100%;
+      min-width: 300px;
+      position: static;
+   }
+   
+   .stats-grid {
+      grid-template-columns: 1fr;
+   }
+   
+   .features-grid {
+      grid-template-columns: 1fr;
+   }
+   
+   .mapa-header h2 {
+      font-size: 1.8rem;
+   }
+   
+   .label-departamento {
+      font-size: 10px;
+   }
+   
+   .mapa-renovables-section {
+      margin: 2rem 0;
+      padding: 1.5rem 0;
+      align-items: center;
+   }
+   
+   .info-panel {
+      padding: 1.5rem;
+   }
+}
+
+@media (max-width: 480px) {
+   .mapa-header h2 {
+      font-size: 1.5rem;
+   }
+   
+   .mapa-header p {
+      font-size: 1rem;
+   }
+   
+   .stat-numero {
+      font-size: 1.5rem;
+   }
+   
+   .proyectos-lista li {
+      font-size: 0.9rem;
+   }
+}
+
+/* Modo oscuro para el mapa */
+.dark-mode .mapa-renovables-section {
+   background: linear-gradient(135deg, #2d3748 0%, #1a202c 100%);
+}
+
+.dark-mode .mapa-interactivo,
+.dark-mode .mapa-leyenda,
+.dark-mode .info-panel {
+   background: #2d3748;
+   border-color: #4a5568;
+}
+
+.dark-mode .stat-item,
+.dark-mode .proyectos-lista li {
+   background: #4a5568;
+   border-color: #6b7280;
+}
+
+.dark-mode .stat-item:hover,
+.dark-mode .proyectos-lista li:hover {
+   background: #5a6172;
+}
+
+.dark-mode .cerrar-panel:hover {
+   background: #4a5568;
+}
+
+/* Overrides: Panel de información debajo del mapa */
+.mapa-lado-izquierdo {
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.mapa-superior {
+  display: flex;
+  flex-direction: row;
+  gap: 2rem;
+  align-items: flex-start;
+  width: 100%;
+}
+
+#info-departamento.info-panel {
+  margin-top: 1rem;
+  width: 100%;
+}
+
+@media (max-width: 768px) {
+  .mapa-superior { flex-direction: column; }
+}
+
+/* Override: aumentar tamaño de nombres en el mapa */
+.label-departamento {
+  font-size: 20px; /* antes 12px */
+}
+
+@media (min-width: 1200px) {
+  .label-departamento { font-size: 15px; }
+}
+
+/* Marcadores de ciudades en el mapa */
+.marker-ciudad {
+  transform-box: fill-box;
+  transform-origin: center;
+  transition: transform 0.2s ease, filter 0.2s ease, opacity 0.2s ease;
+  cursor: pointer;
+  stroke: #fff;
+  stroke-width: 2;
+}
+.marker-ciudad:hover { filter: brightness(1.05); }
+
+/* Colores según leyenda */
+.marker--alto { fill: #28a745; }
+.marker--medio { fill: var(--accent-color); }
+.marker--bajo { fill: #dc3545; }

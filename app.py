@@ -44,7 +44,119 @@ def registro():
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    # Datos del mapa de energías renovables del Caribe
+    departamentos_caribe = [
+        {
+            'nombre': 'La Guajira',
+            'capacidad_solar': 486.8,  # MW
+            'capacidad_eolica': 498.9,  # MW
+            'proyectos_activos': 12,
+            'porcentaje_renovable': 78,
+            'lat': 11.5444,
+            'lng': -72.9072,
+            'proyectos': [
+                {'nombre': 'Parque Eólico Jepírachi', 'tipo': 'eolico', 'capacidad': 19.5},
+                {'nombre': 'Granja Solar La Guajira', 'tipo': 'solar', 'capacidad': 86.2},
+                {'nombre': 'Parque Eólico Windpeshi', 'tipo': 'eolico', 'capacidad': 205},
+            ]
+        },
+        {
+            'nombre': 'Cesar',
+            'capacidad_solar': 245.6,
+            'capacidad_eolica': 0,
+            'proyectos_activos': 8,
+            'porcentaje_renovable': 35,
+            'lat': 10.4631,
+            'lng': -73.2532,
+            'proyectos': [
+                {'nombre': 'Parque Solar El Paso', 'tipo': 'solar', 'capacidad': 86.2},
+                {'nombre': 'Planta Solar Valledupar', 'tipo': 'solar', 'capacidad': 62.5},
+                {'nombre': 'Granja Solar Cesar I', 'tipo': 'solar', 'capacidad': 96.9},
+            ]
+        },
+        {
+            'nombre': 'Magdalena',
+            'capacidad_solar': 123.4,
+            'capacidad_eolica': 0,
+            'proyectos_activos': 5,
+            'porcentaje_renovable': 22,
+            'lat': 10.4139,
+            'lng': -74.4059,
+            'proyectos': [
+                {'nombre': 'Parque Solar Santa Marta', 'tipo': 'solar', 'capacidad': 45.8},
+                {'nombre': 'Planta Solar Ciénaga', 'tipo': 'solar', 'capacidad': 32.1},
+                {'nombre': 'Granja Solar Aracataca', 'tipo': 'solar', 'capacidad': 45.5},
+            ]
+        },
+        {
+            'nombre': 'Atlántico',
+            'capacidad_solar': 89.7,
+            'capacidad_eolica': 147.5,
+            'proyectos_activos': 6,
+            'porcentaje_renovable': 28,
+            'lat': 10.7964,
+            'lng': -74.8810,
+            'proyectos': [
+                {'nombre': 'Parque Solar Barranquilla', 'tipo': 'solar', 'capacidad': 42.3},
+                {'nombre': 'Parque Eólico Atlántico', 'tipo': 'eolico', 'capacidad': 147.5},
+                {'nombre': 'Granja Solar Soledad', 'tipo': 'solar', 'capacidad': 47.4},
+            ]
+        },
+        {
+            'nombre': 'Bolívar',
+            'capacidad_solar': 67.2,
+            'capacidad_eolica': 0,
+            'proyectos_activos': 4,
+            'porcentaje_renovable': 18,
+            'lat': 10.3910,
+            'lng': -75.4794,
+            'proyectos': [
+                {'nombre': 'Parque Solar Cartagena', 'tipo': 'solar', 'capacidad': 35.1},
+                {'nombre': 'Planta Solar Turbaco', 'tipo': 'solar', 'capacidad': 32.1},
+            ]
+        },
+        {
+            'nombre': 'Córdoba',
+            'capacidad_solar': 45.8,
+            'capacidad_eolica': 0,
+            'proyectos_activos': 3,
+            'porcentaje_renovable': 15,
+            'lat': 8.7569,
+            'lng': -75.8664,
+            'proyectos': [
+                {'nombre': 'Granja Solar Montería', 'tipo': 'solar', 'capacidad': 28.4},
+                {'nombre': 'Parque Solar Cereté', 'tipo': 'solar', 'capacidad': 17.4},
+            ]
+        },
+        {
+            'nombre': 'Sucre',
+            'capacidad_solar': 34.2,
+            'capacidad_eolica': 0,
+            'proyectos_activos': 2,
+            'porcentaje_renovable': 12,
+            'lat': 9.1469,
+            'lng': -75.3947,
+            'proyectos': [
+                {'nombre': 'Parque Solar Sincelejo', 'tipo': 'solar', 'capacidad': 24.8},
+                {'nombre': 'Granja Solar Corozal', 'tipo': 'solar', 'capacidad': 9.4},
+            ]
+        },
+        {
+            'nombre': 'San Andrés',
+            'capacidad_solar': 12.5,
+            'capacidad_eolica': 8.2,
+            'proyectos_activos': 3,
+            'porcentaje_renovable': 45,
+            'lat': 12.5847,
+            'lng': -81.7006,
+            'proyectos': [
+                {'nombre': 'Proyecto Solar Islas', 'tipo': 'solar', 'capacidad': 12.5},
+                {'nombre': 'Turbina Eólica Marina', 'tipo': 'eolico', 'capacidad': 8.2},
+            ]
+        }
+    ]
+    
+    return render_template('index.html', departamentos_caribe=departamentos_caribe)
 
 @app.route('/recursos')
 def recursos():

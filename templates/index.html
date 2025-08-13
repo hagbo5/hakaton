@@ -11,83 +11,316 @@
         </div>
     </div>
 </section>
-<section class="home-grid wrapper">
-    <div class="home-left">
-        <div class="info-card">
-            <h2>Calcula tu ahorro y conoce los beneficios</h2>
-            <p>Ingresa tu consumo mensual, tu tarifa y el porcentaje que cubrirías con energía solar y/o eólica. Verás el costo actual y cuánto podrías ahorrar.</p>
-        </div>
-        <section class="features-section">
-            <div class="feature-item">
-                <img src="{{ url_for('static', filename='img/paneles_solares.jpg') }}" alt="Energía solar" loading="lazy" decoding="async">
-                <h3>Energía Solar y Eólica</h3>
-                <p>Aprovechamos el sol y el viento para generar electricidad limpia y eficiente.</p>
-            </div>
-            <div class="feature-item">
-                <h3>Beneficios para la Comunidad</h3>
-                <p>Reducimos costos, mejoramos la calidad de vida y fomentamos la autonomía energética.</p>
-            </div>
-            <div class="feature-item">
-                <h3>Cuidado del Medio Ambiente</h3>
-                <p>Con energías renovables, aseguramos un entorno saludable para futuras generaciones.</p>
-            </div>
-        </section>
+
+<!-- Sección del Mapa Interactivo y Calculadora -->
+<section class="mapa-renovables-section wrapper">
+    <div class="mapa-header">
+        <h2>Avance de Energías Renovables en el Caribe Colombiano</h2>
+        <p>Explora el progreso de la energía solar y eólica en nuestra región. Haz clic en cada departamento para ver detalles.</p>
     </div>
-    <aside class="calculator-section calculator-sticky" aria-label="Calculadora de ahorro">
-        <h2>Calculadora de Ahorro</h2>
-        <form id="ahorro-calc-form">
-            <label for="consumo">Consumo mensual (kWh):</label>
-            <input type="number" id="consumo" name="consumo" min="0" step="any" required>
-            <label for="tarifa">Tarifa actual por kWh ($):</label>
-            <input type="number" id="tarifa" name="tarifa" min="0" step="any" value="700" required>
-            <label for="porcentajeSolar">% cubierto por energía solar:</label>
-            <input type="number" id="porcentajeSolar" name="porcentajeSolar" min="0" max="100" value="50" required>
-            <label for="porcentajeEolica">% cubierto por energía eólica:</label>
-            <input type="number" id="porcentajeEolica" name="porcentajeEolica" min="0" max="100" value="50" required>
-            <button type="button" onclick="calcularAhorro()">Calcular Ahorro</button>
-        </form>
-        <div id="resultado-sin" class="calc-result"></div>
-        <div id="resultado-solar" class="calc-result"></div>
-        <div id="resultado-eolica" class="calc-result"></div>
-        <div id="resultado-ambas" class="calc-result"></div>
-    </aside>
+    
+    <div class="mapa-container">
+        <div class="mapa-lado-izquierdo">
+            <div class="mapa-tools" style="display:flex; align-items:center; gap:.5rem; margin-bottom:.5rem;">
+                <label style="font-size:.9rem; display:flex; align-items:center; gap:.35rem;">
+                    <input type="checkbox" id="modo-ajuste" /> Mover puntos (calibrar)
+                </label>
+            </div>
+
+            <div class="mapa-superior">
+                <div id="mapa-caribe" class="mapa-interactivo">
+                    <!-- Mapa SVG del Caribe colombiano -->
+                </div>
+                
+                <div class="mapa-leyenda">
+                    <h3>Clasificacion</h3>
+                    <div class="leyenda-item">
+                        <span class="color-alto"></span>
+                        <span>Alto (>50% renovables)</span>
+                    </div>
+                    <div class="leyenda-item">
+                        <span class="color-medio"></span>
+                        <span>Medio (25-50% renovables)</span>
+                    </div>
+                    <div class="leyenda-item">
+                        <span class="color-bajo"></span>
+                        <span>Bajo (<25% renovables)</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Panel de información dinámico debajo del mapa -->
+            <div id="info-departamento" class="info-panel" style="display: none;">
+                <button class="cerrar-panel" onclick="cerrarPanel()">×</button>
+                <h3 id="nombre-departamento"></h3>
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <span class="stat-numero" id="capacidad-solar"></span>
+                        <span class="stat-label">MW Energía Solar</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-numero" id="capacidad-eolica"></span>
+                        <span class="stat-label">MW Energía Eólica</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-numero" id="proyectos-activos"></span>
+                        <span class="stat-label">Proyectos Activos</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-numero" id="porcentaje-renovable"></span>
+                        <span class="stat-label">% Energía Renovable</span>
+                    </div>
+                </div>
+                <div class="proyectos-lista">
+                    <h4>Proyectos Destacados:</h4>
+                    <ul id="lista-proyectos"></ul>
+                </div>
+            </div>
+        </div>
+        
+        <aside class="calculator-section" aria-label="Calculadora de ahorro">
+            <h2>Calculadora de Ahorro</h2>
+            <form id="ahorro-calc-form">
+                <label for="consumo">Consumo mensual (kWh):</label>
+                <input type="number" id="consumo" name="consumo" min="0" step="any" required>
+                <label for="tarifa">Tarifa actual por kWh ($):</label>
+                <input type="number" id="tarifa" name="tarifa" min="0" step="any" value="700" required>
+                <label for="porcentajeSolar">% cubierto por energía solar:</label>
+                <input type="number" id="porcentajeSolar" name="porcentajeSolar" min="0" max="100" value="50" required>
+                <label for="porcentajeEolica">% cubierto por energía eólica:</label>
+                <input type="number" id="porcentajeEolica" name="porcentajeEolica" min="0" max="100" value="50" required>
+                <button type="button" onclick="calcularAhorro()">Calcular Ahorro</button>
+            </form>
+            <div id="resultado-sin" class="calc-result"></div>
+            <div id="resultado-solar" class="calc-result"></div>
+            <div id="resultado-eolica" class="calc-result"></div>
+            <div id="resultado-ambas" class="calc-result"></div>
+        </aside>
+    </div>
 </section>
+
+<section class="features-section wrapper">
+    <div class="info-card">
+        <h2>Calcula tu ahorro y conoce los beneficios</h2>
+        <p>Ingresa tu consumo mensual, tu tarifa y el porcentaje que cubrirías con energía solar y/o eólica. Verás el costo actual y cuánto podrías ahorrar.</p>
+    </div>
+    
+    <div class="features-grid">
+        <div class="feature-item">
+            <img src="{{ url_for('static', filename='img/paneles_solares.jpg') }}" alt="Energía solar" loading="lazy" decoding="async">
+            <h3>Energía Solar y Eólica</h3>
+            <p>Aprovechamos el sol y el viento para generar electricidad limpia y eficiente.</p>
+        </div>
+        <div class="feature-item">
+            <h3>Beneficios para la Comunidad</h3>
+            <p>Reducimos costos, mejoramos la calidad de vida y fomentamos la autonomía energética.</p>
+        </div>
+        <div class="feature-item">
+            <h3>Cuidado del Medio Ambiente</h3>
+            <p>Con energías renovables, aseguramos un entorno saludable para futuras generaciones.</p>
+        </div>
+    </div>
+</section>
+
+
+
+<!-- JavaScript para el mapa interactivo -->
 <script>
-    function calcularAhorro() {
-        const consumo = parseFloat(document.getElementById('consumo').value);
-        const tarifa = parseFloat(document.getElementById('tarifa').value);
-        const porcentajeSolar = parseFloat(document.getElementById('porcentajeSolar').value);
-        const porcentajeEolica = parseFloat(document.getElementById('porcentajeEolica').value);
+// Datos de los departamentos del Caribe
+let departamentosData;
 
-        if (isNaN(consumo) || isNaN(tarifa) || isNaN(porcentajeSolar) || isNaN(porcentajeEolica) ||
-            porcentajeSolar < 0 || porcentajeSolar > 100 ||
-            porcentajeEolica < 0 || porcentajeEolica > 100) {
-            document.getElementById('resultado-sin').innerHTML = '';
-            document.getElementById('resultado-solar').innerHTML = '';
-            document.getElementById('resultado-eolica').innerHTML = '';
-            document.getElementById('resultado-ambas').innerHTML = 'Por favor, ingresa valores válidos.';
-            return;
+// Verificar si los datos están disponibles
+try {
+    departamentosData = JSON.parse('{{ departamentos_caribe | tojson | safe }}');
+} catch (e) {
+    console.error('Error parsing departamentos data:', e);
+    // Datos de respaldo en caso de error
+    departamentosData = [
+        {
+            'nombre': 'La Guajira',
+            'capacidad_solar': 486.8,
+            'capacidad_eolica': 498.9,
+            'proyectos_activos': 12,
+            'porcentaje_renovable': 78,
+            'proyectos': [
+                {'nombre': 'Parque Eólico Jepírachi', 'tipo': 'eolico', 'capacidad': 19.5},
+                {'nombre': 'Granja Solar La Guajira', 'tipo': 'solar', 'capacidad': 86.2},
+                {'nombre': 'Parque Eólico Windpeshi', 'tipo': 'eolico', 'capacidad': 205}
+            ]
+        },
+        {
+            'nombre': 'Cesar',
+            'capacidad_solar': 245.6,
+            'capacidad_eolica': 0,
+            'proyectos_activos': 8,
+            'porcentaje_renovable': 35,
+            'proyectos': [
+                {'nombre': 'Parque Solar El Paso', 'tipo': 'solar', 'capacidad': 86.2},
+                {'nombre': 'Planta Solar Valledupar', 'tipo': 'solar', 'capacidad': 62.5}
+            ]
         }
+    ];
+}
 
-        const costoSinRenovable = consumo * tarifa;
-        document.getElementById('resultado-sin').innerHTML = `<b>Sin renovables:</b> $${costoSinRenovable.toLocaleString('es-CO')}`;
+// Crear el mapa SVG
+function crearMapaCaribe() {
+  const mapaContainer = document.getElementById('mapa-caribe');
+  if (!mapaContainer) return;
 
-        const consumoSolar = consumo * (porcentajeSolar / 100);
-        const costoSoloSolar = (consumo - consumoSolar) * tarifa;
-        document.getElementById('resultado-solar').innerHTML = `<b>Solo solar:</b> $${costoSoloSolar.toLocaleString('es-CO')}<br><b>Ahorro:</b> $${(costoSinRenovable - costoSoloSolar).toLocaleString('es-CO')}`;
+  const svgMapa = `
+    <svg viewBox="0 0 900 650" class="mapa-svg">
+      <image href="{{ url_for('static', filename='img/mapa_region.png') }}" x="0" y="0" width="900" height="650" preserveAspectRatio="xMidYMid meet" style="pointer-events:none; opacity:0.95;" />
+      <g class="markers">
+        <circle class="marker-ciudad marker--alto" data-ciudad="Riohacha" data-dept="La Guajira" cx="580" cy="160" r="20" />
+        <text x="590" y="155" class="label-departamento">Riohacha</text>
+        <circle class="marker-ciudad marker--medio" data-ciudad="Valledupar" data-dept="Cesar" cx="510" cy="300" r="20" />
+        <text x="520" y="295" class="label-departamento">Valledupar</text>
+        <circle class="marker-ciudad marker--bajo" data-ciudad="Santa Marta" data-dept="Magdalena" cx="430" cy="170" r="20" />
+        <text x="440" y="165" class="label-departamento">Santa Marta</text>
+        <circle class="marker-ciudad marker--medio" data-ciudad="Barranquilla" data-dept="Atlántico" cx="350" cy="220" r="20" />
+        <text x="360" y="215" class="label-departamento">Barranquilla</text>
+        <circle class="marker-ciudad marker--bajo" data-ciudad="Cartagena" data-dept="Bolívar" cx="330" cy="300" r="20" />
+        <text x="340" y="295" class="label-departamento">Cartagena</text>
+        <circle class="marker-ciudad marker--bajo" data-ciudad="Montería" data-dept="Córdoba" cx="280" cy="440" r="20" />
+        <text x="290" y="445" class="label-departamento">Montería</text>
+        <circle class="marker-ciudad marker--bajo" data-ciudad="Sincelejo" data-dept="Sucre" cx="350" cy="400" r="20" />
+        <text x="360" y="395" class="label-departamento">Sincelejo</text>
+      </g>
+    </svg>
+  `;
 
-        const consumoEolica = consumo * (porcentajeEolica / 100);
-        const costoSoloEolica = (consumo - consumoEolica) * tarifa;
-        document.getElementById('resultado-eolica').innerHTML = `<b>Solo eólica:</b> $${costoSoloEolica.toLocaleString('es-CO')}<br><b>Ahorro:</b> $${(costoSinRenovable - costoSoloEolica).toLocaleString('es-CO')}`;
+  mapaContainer.innerHTML = svgMapa;
 
-        if ((porcentajeSolar + porcentajeEolica) > 100) {
-            document.getElementById('resultado-ambas').innerHTML = 'La suma de los porcentajes no puede ser mayor a 100%. Se muestran los cálculos individuales.';
-            return;
-        }
+  const activarDrag = () => {
+      const svg = mapaContainer.querySelector('svg');
+      let drag = null;
+      function pt(evt){
+         const p = svg.createSVGPoint();
+         p.x = evt.clientX; p.y = evt.clientY;
+         return p.matrixTransform(svg.getScreenCTM().inverse());
+      }
+      mapaContainer.querySelectorAll('.marker-ciudad').forEach(m => {
+         m.style.cursor = 'move';
+         m.addEventListener('mousedown', (e) => {
+            if (!document.getElementById('modo-ajuste').checked) return;
+            drag = m; e.preventDefault();
+         });
+      });
+      window.addEventListener('mousemove', (e) => {
+         if (!drag) return;
+         const loc = pt(e);
+         drag.setAttribute('cx', loc.x.toFixed(0));
+         drag.setAttribute('cy', loc.y.toFixed(0));
+         const label = drag.nextElementSibling;
+         if (label && label.tagName && label.tagName.toLowerCase() === 'text') {
+            label.setAttribute('x', (loc.x + 10).toFixed(0));
+            label.setAttribute('y', (loc.y + 5).toFixed(0));
+         }
+      });
+      window.addEventListener('mouseup', () => {
+         if (!drag) return;
+         const cx = drag.getAttribute('cx');
+         const cy = drag.getAttribute('cy');
+         console.log(`Nueva posición ${drag.dataset.ciudad}: cx=${cx}, cy=${cy}`);
+         // Volcado completo en JSON para persistir
+         const out = {};
+         mapaContainer.querySelectorAll('.marker-ciudad').forEach(m => {
+            out[m.dataset.ciudad] = { cx: Number(m.getAttribute('cx')), cy: Number(m.getAttribute('cy')), dept: m.dataset.dept };
+         });
+         console.log('Coordenadas actuales (copiar y pegar):', JSON.stringify(out, null, 2));
+         drag = null;
+      });
+   };
 
-        const consumoAmbas = consumoSolar + consumoEolica;
-        const costoAmbas = (consumo - consumoAmbas) * tarifa;
-        document.getElementById('resultado-ambas').innerHTML = `<b>Solar + eólica:</b> $${costoAmbas.toLocaleString('es-CO')}<br><b>Ahorro:</b> $${(costoSinRenovable - costoAmbas).toLocaleString('es-CO')}`;
+   activarDrag();
+
+   // Click/hover
+   document.querySelectorAll('.marker-ciudad').forEach(el => {
+      el.addEventListener('click', function() {
+         if (document.getElementById('modo-ajuste').checked) return;
+         const nombreDept = this.getAttribute('data-dept');
+         if (nombreDept) mostrarInfoDepartamento(nombreDept);
+      });
+      // Antes cambiaba el radio a 9/7. Ahora aplicamos escala para no deformar.
+      el.addEventListener('mouseenter', function() { this.style.transform = 'scale(1.12)'; });
+      el.addEventListener('mouseleave', function() { this.style.transform = 'scale(1)'; });
+   });
+}
+
+// Mostrar información del departamento
+function mostrarInfoDepartamento(nombreDept) {
+    const dept = departamentosData.find(d => d.nombre === nombreDept);
+    if (!dept) {
+        console.log('Departamento no encontrado:', nombreDept);
+        return;
     }
+    
+    document.getElementById('nombre-departamento').textContent = dept.nombre;
+    document.getElementById('capacidad-solar').textContent = dept.capacidad_solar + ' MW';
+    document.getElementById('capacidad-eolica').textContent = dept.capacidad_eolica + ' MW';
+    document.getElementById('proyectos-activos').textContent = dept.proyectos_activos;
+    document.getElementById('porcentaje-renovable').textContent = dept.porcentaje_renovable + '%';
+    
+    // Mostrar proyectos
+    const listaProyectos = document.getElementById('lista-proyectos');
+    listaProyectos.innerHTML = '';
+    dept.proyectos.forEach(proyecto => {
+        const li = document.createElement('li');
+        const tipoIcon = proyecto.tipo === 'solar' ? '☀️' : '💨';
+        li.innerHTML = `${tipoIcon} <strong>${proyecto.nombre}</strong> - ${proyecto.capacidad} MW`;
+        listaProyectos.appendChild(li);
+    });
+    
+    document.getElementById('info-departamento').style.display = 'block';
+}
+
+// Cerrar panel de información
+function cerrarPanel() {
+    document.getElementById('info-departamento').style.display = 'none';
+}
+
+// Función original de calculadora
+function calcularAhorro() {
+    const consumo = parseFloat(document.getElementById('consumo').value);
+    const tarifa = parseFloat(document.getElementById('tarifa').value);
+    const porcentajeSolar = parseFloat(document.getElementById('porcentajeSolar').value);
+    const porcentajeEolica = parseFloat(document.getElementById('porcentajeEolica').value);
+
+    if (isNaN(consumo) || isNaN(tarifa) || isNaN(porcentajeSolar) || isNaN(porcentajeEolica) ||
+        porcentajeSolar < 0 || porcentajeSolar > 100 ||
+        porcentajeEolica < 0 || porcentajeEolica > 100) {
+        document.getElementById('resultado-sin').innerHTML = '';
+        document.getElementById('resultado-solar').innerHTML = '';
+        document.getElementById('resultado-eolica').innerHTML = '';
+        document.getElementById('resultado-ambas').innerHTML = 'Por favor, ingresa valores válidos.';
+        return;
+    }
+
+    const costoSinRenovable = consumo * tarifa;
+    document.getElementById('resultado-sin').innerHTML = `<b>Sin renovables:</b> $${costoSinRenovable.toLocaleString('es-CO')}`;
+
+    const consumoSolar = consumo * (porcentajeSolar / 100);
+    const costoSoloSolar = (consumo - consumoSolar) * tarifa;
+    document.getElementById('resultado-solar').innerHTML = `<b>Solo solar:</b> $${costoSoloSolar.toLocaleString('es-CO')}<br><b>Ahorro:</b> $${(costoSinRenovable - costoSoloSolar).toLocaleString('es-CO')}`;
+
+    const consumoEolica = consumo * (porcentajeEolica / 100);
+    const costoSoloEolica = (consumo - consumoEolica) * tarifa;
+    document.getElementById('resultado-eolica').innerHTML = `<b>Solo eólica:</b> $${costoSoloEolica.toLocaleString('es-CO')}<br><b>Ahorro:</b> $${(costoSinRenovable - costoSoloEolica).toLocaleString('es-CO')}`;
+
+    if ((porcentajeSolar + porcentajeEolica) > 100) {
+        document.getElementById('resultado-ambas').innerHTML = 'La suma de los porcentajes no puede ser mayor a 100%. Se muestran los cálculos individuales.';
+        return;
+    }
+
+    const consumoAmbas = consumoSolar + consumoEolica;
+    const costoAmbas = (consumo - consumoAmbas) * tarifa;
+    document.getElementById('resultado-ambas').innerHTML = `<b>Solar + eólica:</b> $${costoAmbas.toLocaleString('es-CO')}<br><b>Ahorro:</b> $${(costoSinRenovable - costoAmbas).toLocaleString('es-CO')}`;
+}
+
+// Inicializar el mapa cuando se carga la página
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('Inicializando mapa del Caribe...');
+    crearMapaCaribe();
+});
 </script>
 {% endblock %}
