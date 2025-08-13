@@ -1,9 +1,10 @@
 import mysql.connector
 
 def get_db_connection():
-    return mysql.connector.connect(
-        host='localhost',
-        user='root',
-        password='',  # Cambia si tienes contraseña en XAMPP
-        database='solaris'
+    connection = mysql.connector.connect(
+        host="sql5.freesqldatabase.com",
+        user="sql5794797",
+        password="AQUI_TU_CONTRASEÑA",
+        database="sql5794797"
     )
+    return connection
