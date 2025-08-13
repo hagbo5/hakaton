@@ -1,0 +1,58 @@
+{% extends 'base_tienda.html' %}
+{% block title %}Carrito de Compras - Solaris{% endblock %}
+{% block tienda_content %}
+<h1>Carrito de Compras</h1>
+{% if carrito and carrito|length > 0 %}
+<table class="usuarios-table" style="margin:2rem 0;">
+    <thead>
+        <tr style="background:#f2f2f2;">
+            <th>Producto</th>
+            <th>Precio</th>
+            <th>Cantidad</th>
+            <th>Subtotal</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for item in carrito %}
+        <tr>
+            <td>{{ item.nombre }}</td>
+            <td>${{ '%.2f'|format(item.precio) }}</td>
+            <td>
+                <form action="{{ url_for('actualizar_carrito') }}" method="post" style="display:inline;">
+                    <input type="number" name="cantidad" value="{{ item.cantidad }}" min="1"
+                        {% if item.stock is defined %}max="{{ item.stock }}"{% endif %}
+                        style="width:60px;" data-auto-submit>
+                    <input type="hidden" name="producto_id" value="{{ item.id }}">
+                </form>
+            </td>
+            <td>${{ '%.2f'|format(item.precio * item.cantidad) }}</td>
+            <td>
+                <form action="{{ url_for('eliminar_del_carrito', producto_id=item.id) }}" method="post" style="display:inline; margin:0;">
+                    <button type="submit" class="cta-button" style="background:#dc3545; color:#fff; padding:0.3rem 0.7rem; font-size:0.95rem;">Limpiar</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<div style="text-align:right; font-size:1.2rem; font-weight:600; color:#0d6efd; margin-bottom:2rem;">
+    Total: ${{ '%.2f'|format(total) }}
+</div>
+<div style="margin-top:1.2rem;">
+    <a href="{{ url_for('finalizar_compra') }}" class="cta-button" style="background:#0d6efd; color:#fff; padding:0.9rem 2.2rem; font-size:1.1rem; border-radius:10px; display:inline-block;">Finalizar compra</a>
+</div>
+
+{% else %}
+<p>Tu carrito está vacío.</p>
+{% endif %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('input[data-auto-submit]').forEach(function(input) {
+        input.addEventListener('change', function() {
+            input.form.submit();
+        });
+    });
+});
+</script>
+{% endblock %}

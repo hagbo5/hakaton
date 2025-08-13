@@ -1,0 +1,32 @@
+{% extends 'base_tienda.html' %}
+{% block title %}Tienda - Solaris{% endblock %}
+{% block tienda_content %}
+<h1 class="tienda-title">Tienda Solaris</h1>
+<p class="tienda-desc">Descubre productos y soluciones para energía renovable en tu hogar o empresa.</p>
+<div class="tienda-grid">
+    <div class="producto-card">
+        <img src="{{ url_for('static', filename='img/panel_tienda.jpg') }}" alt="Panel solar tienda">
+        <div class="producto-info">
+            <h3>Panel Solar Premium</h3>
+            <p>Alta eficiencia, ideal para hogares y empresas. Garantía 25 años.</p>
+            <a href="{{ url_for('productos_solares') }}" class="cta-button">Ver más</a>
+        </div>
+    </div>
+    <div class="producto-card">
+        <img src="{{ url_for('static', filename='img/eloica_tienda.jpg') }}" alt="Turbina eólica tienda">
+        <div class="producto-info">
+            <h3>Turbina Eólica Residencial</h3>
+            <p>Genera energía limpia con el viento. Instalación sencilla y silenciosa.</p>
+            <a href="{{ url_for('productos_eolicos') }}" class="cta-button">Ver más</a>
+        </div>
+    </div>
+    <div class="producto-card">
+        <img src="{{ url_for('static', filename='img/ingenieria_tienda.jpg') }}" alt="Ingeniería tienda">
+        <div class="producto-info">
+            <h3>Servicios de Ingeniería</h3>
+            <p>Asesoría, diseño e instalación de sistemas renovables a medida.</p>
+            <a href="{{ url_for('ingenieria') }}" class="cta-button">Ver más</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

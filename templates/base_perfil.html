@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block content %}
+<div style="display: flex; min-height: 70vh;">
+  <!-- Barra lateral -->
+  <nav style="width: 220px; background: #f4f6fa; border-radius: 12px; margin-right: 2rem; padding: 2rem 1rem 2rem 1.5rem; box-shadow: 0 2px 8px #0001;">
+    <ul style="list-style: none; padding: 0; margin: 0;">
+      <li style="margin-bottom: 1.5rem;">
+        <a href="{{ url_for('perfil') }}" style="color: #0d6efd; font-weight: 600; text-decoration: none;">Perfil</a>
+      </li>
+      <li style="margin-bottom: 1.5rem;">
+        <a href="{{ url_for('compras_perfil') }}" style="color: #0d6efd; font-weight: 600; text-decoration: none;">Compras</a>
+      </li>
+      <li>
+        <a href="{{ url_for('seguridad_perfil') }}" style="color: #0d6efd; font-weight: 600; text-decoration: none;">Seguridad</a>
+      </li>
+    </ul>
+  </nav>
+  <!-- Contenido principal -->
+  <div style="flex: 1;">
+    {% block perfil_content %}{% endblock %}
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,72 @@
+{% extends 'base_perfil.html' %}
+{% block title %}Mis Compras - Solaris{% endblock %}
+{% block perfil_content %}
+<section class="page-header wrapper">
+    <h1>Mis Compras</h1>
+    <p>Historial de compras realizadas en Solaris.</p>
+</section>
+<section class="wrapper perfil-section">
+    <div class="info-card">
+        {% if compras and compras|length > 0 %}
+        <table class="compras-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Fecha</th>
+                    <th>Dirección</th>
+                    <th>Método de pago</th>
+                    <th>Total</th>
+                    <th>Detalle</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for c in compras %}
+                <tr>
+                    <td>{{ c.venta.id }}</td>
+                    <td>{{ c.venta.fecha.strftime('%d/%m/%Y %H:%M') if c.venta.fecha else '' }}</td>
+                    <td>{{ c.venta.direccion_envio }}</td>
+                    <td>{{ c.venta.metodo_pago|capitalize }}</td>
+                    <td>${{ '%.2f'|format(c.venta.total) }}</td>
+                    <td>
+                        <button class="link-button" onclick="toggleDetalle('detalle-{{ c.venta.id }}')">Ver</button>
+                    </td>
+                </tr>
+                <tr id="detalle-{{ c.venta.id }}" class="detalle-row" style="display:none;">
+                    <td colspan="6">
+                        <table class="compras-detalle-table">
+                            <thead>
+                                <tr>
+                                    <th>Producto</th>
+                                    <th>Cantidad</th>
+                                    <th>Precio</th>
+                                    <th>Subtotal</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for d in c.detalles %}
+                                <tr>
+                                    <td>{{ d.nombre_producto }}</td>
+                                    <td>{{ d.cantidad }}</td>
+                                    <td>${{ '%.2f'|format(d.precio_unitario) }}</td>
+                                    <td>${{ '%.2f'|format(d.subtotal) }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p>No has realizado compras aún.</p>
+        {% endif %}
+    </div>
+</section>
+<script>
+function toggleDetalle(id) {
+  const row = document.getElementById(id);
+  row.style.display = (row.style.display === 'none') ? '' : 'none';
+}
+</script>
+{% endblock %}

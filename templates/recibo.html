@@ -1,0 +1,40 @@
+{% extends 'base_tienda.html' %}
+{% block title %}Recibo de Compra - Solaris{% endblock %}
+{% block tienda_content %}
+<h1>Recibo de Compra</h1>
+<div class="receipt">
+    <h2>¡Gracias por tu compra!</h2>
+    <p><strong>Cliente:</strong> {{ venta.nombre_cliente }}</p>
+    <p><strong>Email:</strong> {{ venta.email_cliente }}</p>
+    <p><strong>Teléfono:</strong> {{ venta.telefono_cliente }}</p>
+    <p><strong>Dirección de envío:</strong> {{ venta.direccion_envio }}</p>
+    <p><strong>Método de pago:</strong> {{ venta.metodo_pago|capitalize }}</p>
+    <hr>
+    <h3>Productos:</h3>
+    <table class="receipt-table">
+        <thead>
+            <tr>
+                <th>Producto</th>
+                <th>Cantidad</th>
+                <th>Precio</th>
+                <th>Subtotal</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for d in detalles %}
+            <tr>
+                <td>{{ d.nombre_producto }}</td>
+                <td>{{ d.cantidad }}</td>
+                <td>${{ '%.2f'|format(d.precio_unitario) }}</td>
+                <td>${{ '%.2f'|format(d.subtotal) }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <hr>
+    <h3 class="receipt-total">Total: ${{ '%.2f'|format(venta.total) }}</h3>
+    <div style="margin-top:2rem; text-align:center;">
+        <a href="{{ url_for('tienda') }}" class="cta-button">Volver a la tienda</a>
+    </div>
+</div>
+{% endblock %}

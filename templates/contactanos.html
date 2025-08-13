@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block title %}Contáctanos - Solaris{% endblock %}
+{% block content %}
+<section class="page-header wrapper">
+    <h1>Contáctanos</h1>
+    <p>¿Tienes preguntas, sugerencias o quieres cotizar un proyecto? ¡Escríbenos!</p>
+</section>
+<section class="wrapper" style="max-width: 500px; margin: 0 auto;">
+        {% if mensaje %}
+            <div class="perfil-msg" style="margin-bottom:1.5rem;">{{ mensaje }}</div>
+        {% endif %}
+        <form method="post" action="{{ url_for('contactanos') }}" class="contact-form" autocomplete="off">
+                <label for="nombre">Nombre</label>
+                <input type="text" id="nombre" name="nombre" required>
+                <label for="email">Correo electrónico</label>
+                <input type="email" id="email" name="email" required>
+                <label for="mensaje">Mensaje</label>
+                <textarea id="mensaje" name="mensaje" rows="5" required></textarea>
+                <button type="submit" class="cta-button">Enviar Mensaje</button>
+        </form>
+</section>
+{% endblock %}

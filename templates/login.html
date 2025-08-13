@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block title %}Iniciar Sesión - Solaris{% endblock %}
+{% block content %}
+<section class="page-header wrapper">
+                <h1>Iniciar Sesión</h1>
+                <p>Accede a tu cuenta para gestionar tus recursos y beneficios.</p>
+                {% if error %}
+                        <div style="background:#ffeaea;color:#b91c1c;padding:0.8rem 1rem;border-radius:8px;margin:1rem auto 0 auto;max-width:400px;box-shadow:0 2px 8px #fbbf24;">
+                                {{ error }}
+                        </div>
+                {% endif %}
+</section>
+<section class="wrapper" style="max-width: 440px; margin: 0 auto;">
+                <form method="post" action="{{ url_for('login') }}" class="login-form" autocomplete="off">
+                        <label for="username">Usuario o Email</label>
+                        <input type="text" id="username" name="username" required autofocus>
+                        <label for="password">Contraseña</label>
+                        <input type="password" id="password" name="password" required>
+                        <button type="submit" class="cta-button">Iniciar Sesión</button>
+                        <a href="{{ url_for('registro') }}" class="cta-button" style="background: var(--secondary-color); color: #fff; margin-top: 0.7rem; text-align: center; display: block;">Registrarse</a>
+                </form>
+</section>
+{% endblock %}

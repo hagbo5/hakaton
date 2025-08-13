@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block title %}Quiénes Somos - Equipo Solaris{% endblock %}
+{% block content %}
+<section class="page-header wrapper">
+    <h1>Nuestra Misión y Nuestro Equipo</h1>
+    <p>Amamos el medio ambiente y estamos dedicados a encontrar soluciones energéticas sostenibles para nuestra amada Región Caribe.</p>
+</section>
+<section class="content-section wrapper">
+    <article class="main-content">
+        <h2>Nuestra Historia</h2>
+        <p>Somos un equipo de trabajo radicado en la vibrante ciudad de Valledupar, Cesar. Nuestros esfuerzos e investigaciones giran en pos de encontrar cada día herramientas tecnológicas que nos ayuden a cuidar los recursos naturales que obtenemos de la naturaleza, en especial los inagotables como el potencial solar y eólico.</p>
+        <p>A través de este sitio, promovemos la iniciativa de utilizar paneles solares para generar electricidad y de esta manera reducir los altos costos de las tarifas de energía eléctrica. Por otra parte, aprovechamos la energía eólica obtenida por los vientos haciendo uso de molinos. Creemos firmemente que las energías renovables son clave porque no contaminan el aire ni el agua.</p>
+        <h2>Apoyo Institucional</h2>
+        <h3>MinTIC</h3>
+        <p>Este proyecto busca fortalecer la apropiación tecnológica del territorio. Esta web es una herramienta educativa y de divulgación comunitaria para lograr ese objetivo.</p>
+    </article>
+    <aside class="sidebar">
+        <div class="team-card">
+            <img src="{{ url_for('static', filename='img/equipo.png') }}" alt="Foto del equipo Solaris" class="team-photo">
+            <h3>Equipo Solaris</h3>
+            <p><strong>DIANNYS ROBLES</strong></p>
+            <p><strong>HUGO GUERRERO</strong></p>
+            <p><strong>JOSÉ ROJAS</strong></p>
+            <p><strong>YULEIDIS PEÑA</strong></p>
+            <p><em>Apasionados por la tecnología y la sostenibilidad.</em></p>
+        </div>
+    </aside>
+</section>
+{% endblock %}
+

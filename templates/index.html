@@ -1,0 +1,93 @@
+{% extends 'base.html' %}
+{% block title %}Solaris - Energía Renovable en el Corazón del Caribe{% endblock %}
+{% block content %}
+<section class="hero-section">
+    <div class="hero-content">
+        <h1>Energía Limpia para un Futuro Brillante en el Caribe</h1>
+        <p>Transformamos el sol y el viento en energía sostenible para todos.</p>
+        <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+            <a href="{{ url_for('nosotros') }}" class="cta-button">Conoce Nuestra Misión</a>
+            <a href="{{ url_for('tienda') }}" class="cta-button" style="background: var(--secondary-color); color: #fff;">Tienda</a>
+        </div>
+    </div>
+</section>
+<section class="home-grid wrapper">
+    <div class="home-left">
+        <div class="info-card">
+            <h2>Calcula tu ahorro y conoce los beneficios</h2>
+            <p>Ingresa tu consumo mensual, tu tarifa y el porcentaje que cubrirías con energía solar y/o eólica. Verás el costo actual y cuánto podrías ahorrar.</p>
+        </div>
+        <section class="features-section">
+            <div class="feature-item">
+                <img src="{{ url_for('static', filename='img/paneles_solares.jpg') }}" alt="Energía solar" loading="lazy" decoding="async">
+                <h3>Energía Solar y Eólica</h3>
+                <p>Aprovechamos el sol y el viento para generar electricidad limpia y eficiente.</p>
+            </div>
+            <div class="feature-item">
+                <h3>Beneficios para la Comunidad</h3>
+                <p>Reducimos costos, mejoramos la calidad de vida y fomentamos la autonomía energética.</p>
+            </div>
+            <div class="feature-item">
+                <h3>Cuidado del Medio Ambiente</h3>
+                <p>Con energías renovables, aseguramos un entorno saludable para futuras generaciones.</p>
+            </div>
+        </section>
+    </div>
+    <aside class="calculator-section calculator-sticky" aria-label="Calculadora de ahorro">
+        <h2>Calculadora de Ahorro</h2>
+        <form id="ahorro-calc-form">
+            <label for="consumo">Consumo mensual (kWh):</label>
+            <input type="number" id="consumo" name="consumo" min="0" step="any" required>
+            <label for="tarifa">Tarifa actual por kWh ($):</label>
+            <input type="number" id="tarifa" name="tarifa" min="0" step="any" value="700" required>
+            <label for="porcentajeSolar">% cubierto por energía solar:</label>
+            <input type="number" id="porcentajeSolar" name="porcentajeSolar" min="0" max="100" value="50" required>
+            <label for="porcentajeEolica">% cubierto por energía eólica:</label>
+            <input type="number" id="porcentajeEolica" name="porcentajeEolica" min="0" max="100" value="50" required>
+            <button type="button" onclick="calcularAhorro()">Calcular Ahorro</button>
+        </form>
+        <div id="resultado-sin" class="calc-result"></div>
+        <div id="resultado-solar" class="calc-result"></div>
+        <div id="resultado-eolica" class="calc-result"></div>
+        <div id="resultado-ambas" class="calc-result"></div>
+    </aside>
+</section>
+<script>
+    function calcularAhorro() {
+        const consumo = parseFloat(document.getElementById('consumo').value);
+        const tarifa = parseFloat(document.getElementById('tarifa').value);
+        const porcentajeSolar = parseFloat(document.getElementById('porcentajeSolar').value);
+        const porcentajeEolica = parseFloat(document.getElementById('porcentajeEolica').value);
+
+        if (isNaN(consumo) || isNaN(tarifa) || isNaN(porcentajeSolar) || isNaN(porcentajeEolica) ||
+            porcentajeSolar < 0 || porcentajeSolar > 100 ||
+            porcentajeEolica < 0 || porcentajeEolica > 100) {
+            document.getElementById('resultado-sin').innerHTML = '';
+            document.getElementById('resultado-solar').innerHTML = '';
+            document.getElementById('resultado-eolica').innerHTML = '';
+            document.getElementById('resultado-ambas').innerHTML = 'Por favor, ingresa valores válidos.';
+            return;
+        }
+
+        const costoSinRenovable = consumo * tarifa;
+        document.getElementById('resultado-sin').innerHTML = `<b>Sin renovables:</b> $${costoSinRenovable.toLocaleString('es-CO')}`;
+
+        const consumoSolar = consumo * (porcentajeSolar / 100);
+        const costoSoloSolar = (consumo - consumoSolar) * tarifa;
+        document.getElementById('resultado-solar').innerHTML = `<b>Solo solar:</b> $${costoSoloSolar.toLocaleString('es-CO')}<br><b>Ahorro:</b> $${(costoSinRenovable - costoSoloSolar).toLocaleString('es-CO')}`;
+
+        const consumoEolica = consumo * (porcentajeEolica / 100);
+        const costoSoloEolica = (consumo - consumoEolica) * tarifa;
+        document.getElementById('resultado-eolica').innerHTML = `<b>Solo eólica:</b> $${costoSoloEolica.toLocaleString('es-CO')}<br><b>Ahorro:</b> $${(costoSinRenovable - costoSoloEolica).toLocaleString('es-CO')}`;
+
+        if ((porcentajeSolar + porcentajeEolica) > 100) {
+            document.getElementById('resultado-ambas').innerHTML = 'La suma de los porcentajes no puede ser mayor a 100%. Se muestran los cálculos individuales.';
+            return;
+        }
+
+        const consumoAmbas = consumoSolar + consumoEolica;
+        const costoAmbas = (consumo - consumoAmbas) * tarifa;
+        document.getElementById('resultado-ambas').innerHTML = `<b>Solar + eólica:</b> $${costoAmbas.toLocaleString('es-CO')}<br><b>Ahorro:</b> $${(costoSinRenovable - costoAmbas).toLocaleString('es-CO')}`;
+    }
+</script>
+{% endblock %}

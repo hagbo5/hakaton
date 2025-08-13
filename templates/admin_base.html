@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Administración</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+        .admin-sidebar {
+            width: 220px;
+            background: #222;
+            color: #fff;
+            min-height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            padding-top: 60px;
+        }
+        .admin-sidebar ul {
+            list-style: none;
+            padding: 0;
+        }
+        .admin-sidebar li {
+            margin: 0;
+        }
+        .admin-sidebar a {
+            display: block;
+            color: #fff;
+            text-decoration: none;
+            padding: 18px 24px;
+            transition: background 0.2s;
+        }
+        .admin-sidebar a:hover, .admin-sidebar .active {
+            background: #0d6efd;
+        }
+        .admin-content {
+            margin-left: 240px;
+            padding: 40px 30px;
+        }
+        @media (max-width: 700px) {
+            .admin-sidebar {
+                width: 100%;
+                position: static;
+                min-height: auto;
+                padding-top: 0;
+            }
+            .admin-content {
+                margin-left: 0;
+                padding: 20px 10px;
+            }
+        }
+    </style>
+</head>
+<body class="admin-page theme-light">
+    <nav class="admin-sidebar">
+        <ul>
+            <li><a href="{{ url_for('admin') }}" class="{% if not active %}active{% endif %}">Inicio</a></li>
+            <li><a href="{{ url_for('admin_usuarios') }}" class="{% if active=='usuarios' %}active{% endif %}">Usuarios</a></li>
+            <li><a href="{{ url_for('admin_inventario') }}" class="{% if active=='inventario' %}active{% endif %}">Inventario</a></li>
+            <li><a href="{{ url_for('admin_ventas') }}" class="{% if active=='ventas' %}active{% endif %}">Ventas</a></li>
+            <li><a href="{{ url_for('admin_mensajes') }}" class="{% if active=='mensajes' %}active{% endif %}">Mensajes</a></li>
+        </ul>
+    </nav>
+    <main class="admin-content">
+        {% block admin_content %}
+        <!-- Aquí va el contenido específico de cada sección -->
+        {% endblock %}
+    </main>
+</body>
+</html>

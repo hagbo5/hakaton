@@ -1,0 +1,27 @@
+{% extends 'base_perfil.html' %}
+{% block title %}Seguridad de la Cuenta - Solaris{% endblock %}
+{% block perfil_content %}
+<section class="page-header wrapper">
+    <h1>Seguridad</h1>
+    <p>Gestiona la seguridad de tu cuenta: cambio de contraseña y datos sensibles.</p>
+</section>
+<section class="wrapper perfil-section">
+    <div class="info-card">
+        <h2>Cambiar Contraseña</h2>
+        {% if mensaje %}
+        <div class="perfil-msg success">{{ mensaje }}</div>
+        {% endif %}
+        {% if error %}
+        <div class="perfil-msg error">{{ error }}</div>
+        {% endif %}
+        <form method="post" action="{{ url_for('seguridad_perfil') }}">
+            <label for="old_password">Contraseña actual</label>
+            <input type="password" id="old_password" name="old_password" required>
+            <label for="new_password">Nueva contraseña</label>
+            <input type="password" id="new_password" name="new_password" required>
+            <button type="submit" class="cta-button">Actualizar Contraseña</button>
+        </form>
+    </div>
+    <!-- Puedes agregar aquí más opciones de seguridad (2FA, eliminar cuenta, etc.) -->
+</section>
+{% endblock %}

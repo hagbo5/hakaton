@@ -1,0 +1,26 @@
+{% extends 'base_tienda.html' %}
+{% block title %}Productos Eólicos - Solaris{% endblock %}
+{% block tienda_content %}
+<h1>Productos Eólicos</h1>
+<p>Kits eólicos, turbinas y soluciones para aprovechar la energía del viento.</p>
+<div class="tienda-gallery" style="display: flex; flex-wrap: wrap; gap: 2.5rem; justify-content: center; margin-top: 2.5rem;">
+	{% for p in productos %}
+	<figure style="background:#fff; border-radius:14px; box-shadow:0 4px 18px rgba(44,91,50,0.07); overflow:hidden; max-width:340px; width:100%; cursor:pointer; transition:box-shadow 0.18s;">
+		{% if p.foto %}
+		<img src="{{ url_for('static', filename='img/productos/' ~ p.foto) }}" alt="{{ p.nombre }}" class="tienda-img-producto">
+		{% else %}
+		<img src="{{ url_for('static', filename='img/paneles_solares.jpg') }}" alt="{{ p.nombre }}" class="tienda-img-producto">
+		{% endif %}
+		<figcaption style="padding:1rem; font-size:1.08rem; color:var(--primary-color); font-weight:600;">{{ p.nombre }}</figcaption>
+		<div style="padding:0 1rem 1rem 1rem; color:#444; font-size:0.98rem;">{{ p.descripcion }}</div>
+		   <div style="padding:0 1rem 1rem 1rem; color:#0d6efd; font-weight:700; font-size:1.1rem;">${{ '%.2f'|format(p.precio) }}</div>
+		   <div style="padding:0 1rem 1rem 1rem; text-align:center;">
+			   <form action="{{ url_for('agregar_al_carrito', producto_id=p.id) }}" method="post" style="display:inline;">
+				   <input type="hidden" name="cantidad" value="1">
+				   <button type="submit" class="cta-button" style="background:#0d6efd; color:#fff; padding:0.7rem 1.2rem; border-radius:8px; font-size:1rem; margin-top:0.5rem; display:inline-block;">Comprar</button>
+			   </form>
+		   </div>
+	</figure>
+	{% endfor %}
+</div>
+{% endblock %}

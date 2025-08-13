@@ -1,0 +1,60 @@
+{% extends 'admin_base.html' %}
+{% block admin_content %}
+<h2>Gestión de Ventas</h2>
+<div style="margin-bottom:1.5rem;">
+	<input type="text" id="buscador-ventas" placeholder="Buscar venta por cliente, email, producto..." style="width:100%; max-width:340px; padding:0.6rem 1rem; border-radius:7px; border:1px solid #bbb; font-size:1.08rem;">
+</div>
+<p>Aquí puedes consultar y gestionar las ventas realizadas.</p>
+{% if ventas %}
+	<div id="ventas-lista">
+	{% for v in ventas %}
+	<div class="venta-item" style="background:#f9f9f9; border-radius:10px; margin:1.5rem 0; padding:1.2rem 2rem; box-shadow:0 2px 8px #0001;">
+		<h4>Venta #{{ v.venta.id }} | {{ v.venta.fecha.strftime('%d/%m/%Y %H:%M') if v.venta.fecha else '' }}</h4>
+		<p><strong>Cliente:</strong> {{ v.venta.nombre_cliente }} | <strong>Email:</strong> {{ v.venta.email_cliente }} | <strong>Tel:</strong> {{ v.venta.telefono_cliente }}</p>
+		<p><strong>Dirección:</strong> {{ v.venta.direccion_envio }} | <strong>Método de pago:</strong> {{ v.venta.metodo_pago|capitalize }}</p>
+		<table style="width:100%; border-collapse:collapse; margin-top:0.7rem;">
+			<thead>
+				<tr style="background:#e9ecef;">
+					<th>Producto</th>
+					<th>Cantidad</th>
+					<th>Precio</th>
+					<th>Subtotal</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for d in v.detalles %}
+				<tr>
+					<td>{{ d.nombre_producto }}</td>
+					<td>{{ d.cantidad }}</td>
+					<td>${{ '%.2f'|format(d.precio_unitario) }}</td>
+					<td>${{ '%.2f'|format(d.subtotal) }}</td>
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+		<h4 style="text-align:right; margin-top:1rem;">Total: ${{ '%.2f'|format(v.venta.total) }}</h4>
+	</div>
+	{% endfor %}
+	</div>
+{% else %}
+	<p>No hay ventas registradas.</p>
+{% endif %}
+
+<script>
+// Buscador de ventas
+document.addEventListener('DOMContentLoaded', function() {
+	const input = document.getElementById('buscador-ventas');
+	const lista = document.getElementById('ventas-lista');
+	if(input && lista) {
+		input.addEventListener('keyup', function() {
+			const filtro = input.value.toLowerCase();
+			const items = lista.querySelectorAll('.venta-item');
+			items.forEach(function(div) {
+				const texto = div.textContent.toLowerCase();
+				div.style.display = texto.includes(filtro) ? '' : 'none';
+			});
+		});
+	}
+});
+</script>
+{% endblock %}

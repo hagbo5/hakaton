@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block title %}Tienda - Solaris{% endblock %}
+{% block content %}
+<div class="tienda-layout">
+    <aside class="tienda-menu">
+        <nav>
+            <ul>
+                <li><a href="{{ url_for('productos_solares') }}" class="{% if request.endpoint == 'productos_solares' %}active{% endif %}">Productos Solares</a></li>
+                <li><a href="{{ url_for('productos_eolicos') }}" class="{% if request.endpoint == 'productos_eolicos' %}active{% endif %}">Productos Eólicos</a></li>
+                <li><a href="{{ url_for('ingenieria') }}" class="{% if request.endpoint == 'ingenieria' %}active{% endif %}">Ingeniería y Proyectos</a></li>
+            </ul>
+        </nav>
+    </aside>
+    <section class="tienda-main">
+        {% block tienda_content %}{% endblock %}
+    </section>
+</div>
+{% endblock %}

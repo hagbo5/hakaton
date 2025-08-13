@@ -1,0 +1,26 @@
+{% extends 'base_tienda.html' %}
+{% block title %}Finalizar Compra - Solaris{% endblock %}
+{% block tienda_content %}
+<h1>Finalizar Compra</h1>
+{% if not usuario %}
+<div style="color:#b91c1c; font-weight:600; margin-bottom:1rem;">No se encontró información de usuario. Por favor revisa tu sesión.</div>
+{% endif %}
+<form action="{{ url_for('procesar_compra') }}" method="post" class="form-edit-usuario" style="max-width:500px; margin:2rem auto;">
+    <label>Nombre completo</label>
+    <input type="text" name="nombre" value="{{ usuario.nombre if usuario else '' }}" required>
+    <label>Email</label>
+    <input type="email" name="email" value="{{ usuario.email if usuario else '' }}" required>
+    <label>Teléfono</label>
+    <input type="text" name="telefono" value="{{ usuario.telefono if usuario else '' }}" required>
+    <label>Dirección de envío</label>
+    <input type="text" name="direccion_envio" required>
+    <label>Método de pago</label>
+    <select name="metodo_pago" required>
+        <option value="">Selecciona...</option>
+        <option value="tarjeta">Tarjeta de crédito/débito</option>
+        <option value="transferencia">Transferencia bancaria</option>
+        <option value="contraentrega">Pago contra entrega</option>
+    </select>
+    <button type="submit" class="cta-button">Confirmar compra</button>
+</form>
+{% endblock %}

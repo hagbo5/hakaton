@@ -1,0 +1,70 @@
+{% extends 'admin_base.html' %}
+{% block admin_content %}
+<h2>Gestión de Usuarios</h2>
+<div style="margin-bottom:1.5rem;">
+	<input type="text" id="buscador-usuario" placeholder="Buscar usuario por nombre, usuario, email..." style="width:100%; max-width:340px; padding:0.6rem 1rem; border-radius:7px; border:1px solid #bbb; font-size:1.08rem;">
+</div>
+<table class="usuarios-table" id="tabla-usuarios" style="width:100%; border-collapse:collapse; margin:2rem 0;">
+	<thead>
+		<tr style="background:#f2f2f2;">
+			<th>ID</th>
+			<th>Nombre</th>
+			<th>Apellido</th>
+			<th>Usuario</th>
+			<th>Email</th>
+			<th>Teléfono</th>
+			<th>Rol</th>
+			<th>Acciones</th>
+		</tr>
+	</thead>
+	<tbody>
+		{% for u in usuarios %}
+		<tr>
+			<td>{{ u.id }}</td>
+			<td>{{ u.nombre }}</td>
+			<td>{{ u.apellido }}</td>
+			<td>{{ u.username }}</td>
+			<td>{{ u.email }}</td>
+			<td>{{ u.telefono }}</td>
+			<td>{{ u.rol }}</td>
+			<td>
+				{% if u.id == admin_original_id %}
+					<span class="cta-button" style="background:#bbb; color:#fff; cursor:not-allowed; opacity:0.7;">Admin principal</span>
+				{% else %}
+					{% if u.rol != 'admin' %}
+					<form action="{{ url_for('hacer_admin', user_id=u.id) }}" method="post" style="display:inline;">
+						<button type="submit" class="cta-button" style="background:#0d6efd; color:#fff; padding:0.3rem 0.7rem; font-size:0.95rem;">Hacer admin</button>
+					</form>
+					{% else %}
+					<form action="{{ url_for('quitar_admin', user_id=u.id) }}" method="post" style="display:inline;">
+						<button type="submit" class="cta-button" style="background:#888; color:#fff; padding:0.3rem 0.7rem; font-size:0.95rem;">Quitar admin</button>
+					</form>
+					{% endif %}
+					<a href="{{ url_for('editar_usuario', user_id=u.id) }}" class="cta-button" style="background:#ffc107; color:#222; padding:0.3rem 0.7rem; font-size:0.95rem; margin-left:0.3rem;">Editar</a>
+					<form action="{{ url_for('eliminar_usuario', user_id=u.id) }}" method="post" style="display:inline; margin-left:0.3rem;" onsubmit="return confirm('¿Seguro que deseas eliminar este usuario?');">
+						<button type="submit" class="cta-button" style="background:#dc3545; color:#fff; padding:0.3rem 0.7rem; font-size:0.95rem;">Eliminar</button>
+					</form>
+				{% endif %}
+			</td>
+		</tr>
+		{% endfor %}
+	</tbody>
+</table>
+<script>
+// Buscador de usuarios en tabla
+document.addEventListener('DOMContentLoaded', function() {
+	const input = document.getElementById('buscador-usuario');
+	const table = document.getElementById('tabla-usuarios');
+	if(input && table) {
+		input.addEventListener('keyup', function() {
+			const filtro = input.value.toLowerCase();
+			const filas = table.querySelectorAll('tbody tr');
+			filas.forEach(function(tr) {
+				const texto = tr.textContent.toLowerCase();
+				tr.style.display = texto.includes(filtro) ? '' : 'none';
+			});
+		});
+	}
+});
+</script>
+{% endblock %}

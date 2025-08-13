@@ -1,0 +1,215 @@
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Solaris{% endblock %}</title>
+    <meta name="description" content="Promovemos el uso de energía solar y eólica en Valledupar y la Región Caribe para un futuro sostenible.">
+    <meta name="author" content="Equipo Solaris">
+    <meta name="theme-color" content="#2c5b32">
+    <script>
+    // Pre-aplicar tema antes de cargar CSS para evitar parpadeo (flash)
+    (function() {
+      var root = document.documentElement;
+      root.classList.add('theme-boot'); // deshabilita transiciones iniciales
+      try {
+        var stored = localStorage.getItem('darkMode');
+        if (stored === '1') {
+          root.classList.add('dark-mode');
+          root.classList.remove('theme-light');
+        } else if (stored === '0') {
+          root.classList.add('theme-light');
+          root.classList.remove('dark-mode');
+        } else {
+          // Por defecto: claro
+          root.classList.add('theme-light');
+          root.classList.remove('dark-mode');
+        }
+      } catch (e) { /* noop */ }
+    })();
+    </script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="main-header">
+        <div class="wrapper" style="align-items: center;">
+            <div style="display: flex; align-items: center; gap: 2.5rem;">
+                <a href="{{ url_for('index') }}" class="logo">Solaris</a>
+                <button class="nav-toggle" id="navToggle" aria-label="Abrir menú de navegación" aria-controls="mainNav" aria-expanded="false">☰</button>
+                <nav class="main-nav" id="mainNav">
+                    <ul>
+                        <li><a href="{{ url_for('index') }}" class="{% if request.endpoint == 'index' %}active{% endif %}">Inicio</a></li>
+                        <li><a href="{{ url_for('nosotros') }}" class="{% if request.endpoint == 'nosotros' %}active{% endif %}">Quiénes Somos</a></li>
+                        <li><a href="{{ url_for('recursos') }}" class="{% if request.endpoint == 'recursos' %}active{% endif %}">Recursos</a></li>
+                        <li><a href="{{ url_for('beneficios') }}" class="{% if request.endpoint == 'beneficios' %}active{% endif %}">Beneficios</a></li>
+                        <li><a href="{{ url_for('tienda') }}" class="{% if request.endpoint == 'tienda' %}active{% endif %}">Tienda</a></li>
+                        <li><a href="{{ url_for('contactanos') }}" class="{% if request.endpoint == 'contactanos' %}active{% endif %}">Contáctanos</a></li>
+                    </ul>
+                </nav>
+            </div>
+            <div class="header-actions">
+                {% set tienda_endpoints = ['tienda', 'productos_solares', 'productos_eolicos', 'ingenieria'] %}
+                {% if request.endpoint in tienda_endpoints %}
+                <a href="{{ url_for('carrito') }}" class="cart-icon" style="margin-left:1.5rem; display:inline-block; position:relative;">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#0d6efd" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;">
+                        <circle cx="9" cy="21" r="1.7"/>
+                        <circle cx="19" cy="21" r="1.7"/>
+                        <path d="M2.5 4h2.5l2.2 13.2a2 2 0 0 0 2 1.8h7.6a2 2 0 0 0 2-1.7l1.2-7.3H6.1"/>
+                    </svg>
+                    {% set carrito = session.get('carrito', []) %}
+                    {% set total_items = carrito|map(attribute='cantidad')|sum %}
+                    {% if total_items > 0 %}
+                    <span style="position:absolute; top:-7px; right:-7px; background:#dc3545; color:#fff; font-size:0.95rem; font-weight:700; border-radius:50%; padding:2px 7px; min-width:22px; text-align:center; box-shadow:0 2px 8px rgba(0,0,0,0.12);">{{ total_items }}</span>
+                    {% endif %}
+                </a>
+                {% endif %}
+                {% if session.get('username') %}
+                <div class="user-menu-wrapper" style="position: relative; display: inline-block; margin-left: 1.5rem;">
+                    <a href="#" class="login-btn user-menu-btn" style="cursor:pointer;">{{ session['username'] }} &#x25BC;</a>
+                    <div class="user-submenu" style="display:none; position:absolute; right:0; top:110%; background:#fff; border-radius:10px; box-shadow:0 4px 18px rgba(44,91,50,0.10); min-width:140px; z-index:1001;">
+                        <a href="{{ url_for('perfil') }}" class="user-submenu-link" style="display:block; padding:0.8rem 1.2rem; color:var(--primary-color); text-decoration:none; border-radius:10px 10px 0 0;">Perfil</a>
+                        {% if session.get('rol') == 'admin' %}
+                        <a href="{{ url_for('admin') }}" class="user-submenu-link" style="display:block; padding:0.8rem 1.2rem; color:var(--primary-color); text-decoration:none;" target="_blank" rel="noopener">Admin</a>
+                        {% endif %}
+                        <a href="{{ url_for('logout') }}" class="user-submenu-link" style="display:block; padding:0.8rem 1.2rem; color:#fff; background:var(--secondary-color); text-decoration:none; border-radius:0 0 10px 10px;">Cerrar Sesión</a>
+                    </div>
+                </div>
+                <script>
+                // Mostrar/ocultar submenu al pasar el mouse
+                document.addEventListener('DOMContentLoaded', function() {
+                    var wrapper = document.querySelector('.user-menu-wrapper');
+                    if(wrapper) {
+                        wrapper.addEventListener('mouseenter', function() {
+                            wrapper.querySelector('.user-submenu').style.display = 'block';
+                        });
+                        wrapper.addEventListener('mouseleave', function() {
+                            wrapper.querySelector('.user-submenu').style.display = 'none';
+                        });
+                    }
+                });
+                </script>
+                {% else %}
+    <a href="{{ url_for('login') }}" class="login-btn" style="margin-left: 1.5rem;">Iniciar Sesión</a>
+{% endif %}
+                <button id="darkModeToggle" title="Modo oscuro" style="background:none;border:none;cursor:pointer;font-size:1.3rem; margin-left:1.2rem;">
+                  🌙
+                </button>
+            </div>
+        </div>
+    </header>
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+    <footer class="main-footer" role="contentinfo">
+        <div class="wrapper">
+            <p>© 2025 Solaris — Energía limpia para el Caribe.</p>
+            <p><small>Valledupar, Cesar • Proyecto educativo y comunitario.</small></p>
+        </div>
+    </footer>
+        <script>
+        (function(){
+            const btn = document.querySelector('.nav-toggle');
+            const list = document.querySelector('.main-nav ul');
+            if(btn && list){
+                btn.addEventListener('click', function(){
+                    const open = list.classList.toggle('open');
+                    btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+                });
+            }
+        })();
+        // Animación de carrito al agregar producto
+        document.addEventListener('DOMContentLoaded', function() {
+            if(window.location.search.includes('cart=added')) {
+                var cartIcon = document.querySelector('.cart-icon');
+                if(cartIcon) {
+                    cartIcon.classList.add('cart-animate');
+                    setTimeout(function(){ cartIcon.classList.remove('cart-animate'); }, 800);
+                }
+            }
+        });
+    </script>
+    <script>
+document.addEventListener('DOMContentLoaded', function() {
+  const root = document.documentElement;
+  const body = document.body;
+  const toggle = document.getElementById('darkModeToggle');
+
+  function setDarkMode(on) {
+    [root, body].forEach(el => {
+      el.classList.toggle('dark-mode', on);
+      el.classList.toggle('theme-light', !on);
+    });
+    localStorage.setItem('darkMode', on ? '1' : '0');
+    if (toggle) {
+      toggle.textContent = on ? '☀️' : '🌙';
+      toggle.title = on ? 'Modo claro' : 'Modo oscuro';
+    }
+  }
+
+  const stored = localStorage.getItem('darkMode');
+  if (stored === null) {
+    // Por defecto: tema claro
+    setDarkMode(false);
+  } else {
+    setDarkMode(stored === '1');
+  }
+
+  if (toggle) {
+    toggle.addEventListener('click', () => {
+      const next = !root.classList.contains('dark-mode');
+      setDarkMode(next);
+    });
+  }
+
+  // Rehabilitar transiciones luego de aplicar el tema inicial
+  root.classList.remove('theme-boot');
+});
+</script>
+<script>
+  // Pre-aplicar tema antes de cargar CSS para evitar parpadeos
+  (function() {
+  var root = document.documentElement;
+  root.classList.add('theme-boot'); // deshabilita transiciones iniciales
+  try {
+    var stored = localStorage.getItem('darkMode');
+    if (stored === '1') {
+      root.classList.add('dark-mode');
+      root.classList.remove('theme-light');
+    } else if (stored === '0') {
+      root.classList.add('theme-light');
+      root.classList.remove('dark-mode');
+    } else {
+      // Por defecto, tema claro
+      root.classList.add('theme-light');
+      root.classList.remove('dark-mode');
+    }
+  } catch (e) { /* noop */ }
+  })();
+</script>
+<script>
+(function(){
+    const navToggle = document.getElementById('navToggle');
+    const mainNav = document.getElementById('mainNav');
+    if(navToggle && mainNav){
+        navToggle.addEventListener('click', function(){
+            const expanded = navToggle.getAttribute('aria-expanded') === 'true';
+            navToggle.setAttribute('aria-expanded', !expanded);
+            mainNav.classList.toggle('nav-open');
+        });
+        // Cerrar menú al hacer click en un enlace (en móvil)
+        mainNav.querySelectorAll('a').forEach(function(link){
+            link.addEventListener('click', function(){
+                if(window.innerWidth <= 900){
+                    mainNav.classList.remove('nav-open');
+                    navToggle.setAttribute('aria-expanded', 'false');
+                }
+            });
+        });
+    }
+})();
+</script>
+</body>
+</html>

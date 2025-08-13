@@ -1,0 +1,32 @@
+{% extends 'admin_base.html' %}
+{% block admin_content %}
+<h2>Agregar Producto</h2>
+{% if mensaje %}
+  <div class="perfil-msg">{{ mensaje }}</div>
+{% endif %}
+<form method="post" enctype="multipart/form-data" class="form-edit-usuario" style="max-width:500px; margin:2rem auto;">
+    <label>Nombre del producto</label>
+  <input type="text" name="nombre" required>
+  <label>Descripción</label>
+  <textarea name="descripcion" rows="3"></textarea>
+  <label>Precio</label>
+  <input type="number" name="precio" step="0.01" min="0" required>
+  <label>Cantidad</label>
+  <input type="number" name="cantidad" min="0" required>
+  <label>Disponibilidad</label>
+  <select name="disponible">
+    <option value="si" selected>Disponible</option>
+    <option value="no">No disponible</option>
+  </select>
+  <label>Sección en página de ventas</label>
+  <select name="seccion">
+    <option value="solar" selected>Solar</option>
+    <option value="eolico">Eólico</option>
+    <option value="ingenieria">Ingeniería</option>
+  </select>
+  <label>Foto</label>
+  <input type="file" name="foto" accept="image/*">
+    <button type="submit" class="cta-button">Agregar Producto</button>
+    <a href="{{ url_for('admin_inventario') }}" class="cta-button" style="background:#888; margin-left:1rem;">Cancelar</a>
+</form>
+{% endblock %}

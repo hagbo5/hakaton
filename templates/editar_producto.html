@@ -1,0 +1,35 @@
+{% extends 'admin_base.html' %}
+{% block admin_content %}
+<h2>Editar Producto</h2>
+<form method="post" enctype="multipart/form-data" class="form-edit-usuario" style="max-width:500px; margin:2rem auto;">
+    <label>Nombre del producto</label>
+  <input type="text" name="nombre" value="{{ producto.nombre }}" required>
+  <label>Descripción</label>
+  <textarea name="descripcion" rows="3">{{ producto.descripcion }}</textarea>
+  <label>Precio</label>
+  <input type="number" name="precio" step="0.01" min="0" value="{{ producto.precio }}" required>
+  <label>Cantidad</label>
+  <input type="number" name="cantidad" min="0" value="{{ producto.cantidad }}" required>
+  <label>Disponibilidad</label>
+  <select name="disponible">
+    <option value="si" {% if producto.disponible=='si' or not producto.disponible %}selected{% endif %}>Disponible</option>
+    <option value="no" {% if producto.disponible=='no' %}selected{% endif %}>No disponible</option>
+  </select>
+  <label>Sección en página de ventas</label>
+  <select name="seccion">
+    <option value="solar" {% if producto.seccion=='solar' %}selected{% endif %}>Solar</option>
+    <option value="eolico" {% if producto.seccion=='eolico' %}selected{% endif %}>Eólico</option>
+    <option value="ingenieria" {% if producto.seccion=='ingenieria' %}selected{% endif %}>Ingeniería</option>
+  </select>
+    <label>Foto actual:</label>
+    {% if producto.foto %}
+      <img src="{{ url_for('static', filename='img/productos/' ~ producto.foto) }}" alt="Foto producto" style="max-width:120px; display:block; margin-bottom:1rem;">
+    {% else %}
+      <span class="text-muted">Sin foto</span>
+    {% endif %}
+    <label>Cambiar foto</label>
+    <input type="file" name="foto" accept="image/*">
+    <button type="submit" class="cta-button">Guardar Cambios</button>
+    <a href="{{ url_for('admin_inventario') }}" class="cta-button" style="background:#888; margin-left:1rem;">Cancelar</a>
+</form>
+{% endblock %}

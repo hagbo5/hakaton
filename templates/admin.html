@@ -1,0 +1,60 @@
+{% extends 'admin_base.html' %}
+{% block admin_content %}
+<h2>Bienvenido al Panel de Administración</h2>
+<p>Selecciona una opción del menú para gestionar usuarios, inventario, ventas o mensajes.</p>
+
+<section style="margin-top:2.5rem;">
+	<h3 style="color:#0d6efd;">Resumen General</h3>
+	<div style="display:flex; flex-wrap:wrap; gap:2.5rem; margin:1.5rem 0;">
+		<div style="background:#f9f9f9; border-radius:12px; box-shadow:0 2px 8px #0001; padding:1.5rem 2.2rem; min-width:220px;">
+			<h4 style="color:#222; margin-bottom:0.7rem;">Usuarios registrados</h4>
+			<p style="font-size:2.1rem; color:#0d6efd; font-weight:700;">{{ resumen.usuarios }}</p>
+		</div>
+		<div style="background:#f9f9f9; border-radius:12px; box-shadow:0 2px 8px #0001; padding:1.5rem 2.2rem; min-width:220px;">
+			<h4 style="color:#222; margin-bottom:0.7rem;">Productos en stock</h4>
+			<p style="font-size:2.1rem; color:#0d6efd; font-weight:700;">{{ resumen.productos }}</p>
+		</div>
+		<div style="background:#f9f9f9; border-radius:12px; box-shadow:0 2px 8px #0001; padding:1.5rem 2.2rem; min-width:220px;">
+			<h4 style="color:#222; margin-bottom:0.7rem;">Ventas totales</h4>
+			<p style="font-size:2.1rem; color:#0d6efd; font-weight:700;">{{ resumen.ventas }}</p>
+		</div>
+		<div style="background:#f9f9f9; border-radius:12px; box-shadow:0 2px 8px #0001; padding:1.5rem 2.2rem; min-width:220px;">
+			<h4 style="color:#222; margin-bottom:0.7rem;">Mensajes recibidos</h4>
+			<p style="font-size:2.1rem; color:#0d6efd; font-weight:700;">{{ resumen.mensajes }}</p>
+		</div>
+	</div>
+	<h3 style="color:#0d6efd; margin-top:2.5rem;">Parámetros Administrativos</h3>
+	<ul style="margin:1.2rem 0 0 1.2rem; color:#333; font-size:1.08rem; padding-left:0;">
+		<li style="list-style:none; background:#e9f7ef; border:1px solid #b2dfdb; border-radius:7px; margin-bottom:0.5rem; padding:0.5rem 1rem; font-weight:500; display:flex; align-items:center; gap:0.7rem;">
+			<span style="display:inline-block; width:10px; height:10px; background:#17a589; border-radius:50%;"></span>
+			<strong>Sesión actual:</strong> {{ session['username'] if session.get('username') else 'No iniciada' }}
+		</li>
+		<li style="list-style:none; background:#e9f7ef; border:1px solid #b2dfdb; border-radius:7px; margin-bottom:0.5rem; padding:0.5rem 1rem; font-weight:500; display:flex; align-items:center; gap:0.7rem;">
+			<span style="display:inline-block; width:10px; height:10px; background:#17a589; border-radius:50%;"></span>
+			<strong>Rol:</strong> {{ session['rol'] if session.get('rol') else 'No definido' }}
+		</li>
+		<li style="list-style:none; background:#e9f7ef; border:1px solid #b2dfdb; border-radius:7px; margin-bottom:0.5rem; padding:0.5rem 1rem; font-weight:500; display:flex; align-items:center; gap:0.7rem;">
+			<span style="display:inline-block; width:10px; height:10px; background:#17a589; border-radius:50%;"></span>
+			<strong>Último acceso:</strong> {{ resumen.ultimo_acceso or 'N/A' }}
+		</li>
+		<li style="list-style:none; background:#e9f7ef; border:1px solid #b2dfdb; border-radius:7px; margin-bottom:0.5rem; padding:0.5rem 1rem; font-weight:500; display:flex; align-items:center; gap:0.7rem;">
+			<span style="display:inline-block; width:10px; height:10px; background:#17a589; border-radius:50%;"></span>
+			<strong>Admins registrados:</strong> {{ resumen.admins }}
+		</li>
+		<li><li style="list-style:none; background:#e9f7ef; border:1px solid #b2dfdb; border-radius:7px; margin-bottom:0.5rem; padding:0.5rem 1rem; font-weight:500; display:flex; align-items:center; gap:0.7rem;">
+			<span style="display:inline-block; width:10px; height:10px; background:#17a589; border-radius:50%;"></span>
+            <strong>Productos bajos en stock (&lt;= 5):</strong> {{ resumen.productos_bajo_stock }}
+			{% if resumen.productos_bajo_stock > 0 %}
+				<ul style="margin-top:0.5rem; padding-left:0;">
+				{% for p in resumen.productos_bajo_stock_lista %}
+					<li style="list-style:none; background:#fff3cd; color:#856404; border:1px solid #ffeeba; border-radius:7px; margin-bottom:0.4rem; padding:0.5rem 1rem; font-weight:600; display:flex; align-items:center; gap:0.7rem;">
+						<span style="display:inline-block; width:10px; height:10px; background:#dc3545; border-radius:50%;"></span>
+						{{ p.nombre }} <span style="font-size:0.98rem; color:#b91c1c; font-weight:700;">({{ p.cantidad }})</span>
+					</li>
+				{% endfor %}
+				</ul>
+			{% endif %}
+		</li>
+	</ul>
+</section>
+{% endblock %}

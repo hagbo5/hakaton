@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block title %}Registro de Usuario - Solaris{% endblock %}
+{% block content %}
+<section class="page-header wrapper">
+    <h1>Registro de Usuario</h1>
+    <p>Crea tu cuenta para acceder a todos los beneficios de Solaris.</p>
+</section>
+<section class="wrapper" style="max-width: 500px; margin: 0 auto;">
+    <form method="post" action="{{ url_for('registro') }}" class="login-form" autocomplete="off">
+        <label for="nombre">Nombre</label>
+        <input type="text" id="nombre" name="nombre" required>
+        <label for="apellido">Apellido</label>
+        <input type="text" id="apellido" name="apellido" required>
+        <label for="username">Usuario</label>
+        <input type="text" id="username" name="username" required>
+        <label for="email">Correo electrónico</label>
+        <input type="email" id="email" name="email" required>
+        <label for="telefono">Teléfono</label>
+        <input type="text" id="telefono" name="telefono">
+        <label for="password">Contraseña</label>
+        <input type="password" id="password" name="password" required>
+        <button type="submit" class="cta-button">Registrarse</button>
+    </form>
+</section>
+{% endblock %}

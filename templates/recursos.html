@@ -1,0 +1,154 @@
+{% extends 'base.html' %}
+{% block title %}Recursos Naturales - Proyecto Solaris{% endblock %}
+{% block content %}
+<section class="page-header wrapper">
+    <h1>Entendiendo Nuestros Recursos Naturales</h1>
+    <p>Los recursos naturales son el fundamento de la vida y la base de nuestra economía y bienestar. Conocerlos es el primer paso para protegerlos.</p>
+    <figure class="resource-banner resource-banner-top">
+        <img src="{{ url_for('static', filename='img/tayrona.jpg') }}" alt="Parque Nacional Natural Tayrona, ejemplo de riqueza natural Caribe" loading="eager">
+        <figcaption>Parque Nacional Natural Tayrona: símbolo de la riqueza y diversidad de los recursos naturales del Caribe colombiano.</figcaption>
+    </figure>
+</section>
+<section class="content-section wrapper">
+    <article class="main-content-full">
+        <h2>Clasificación de los Recursos</h2>
+        <p>Generalmente, los recursos naturales se clasifican en tres categorías principales, basándose en su capacidad de regeneración:</p>
+        <div class="resource-card">
+            <figure class="resource-figure">
+                <!-- Sol + hoja -->
+                <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4" fill="currentColor" opacity="0.9"/><g stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M12 2v3M12 19v3M4.22 4.22l2.12 2.12M17.66 17.66l2.12 2.12M2 12h3M19 12h3M4.22 19.78l2.12-2.12M17.66 6.34l2.12-2.12"/></g></svg>
+            </figure>
+            <h3>1. Recursos Renovables</h3>
+            <p>Son aquellos que se regeneran de forma natural a una velocidad igual o mayor a la de su consumo. Aunque son renovables, su uso excesivo puede llevar a su agotamiento.</p>
+            <p><strong>Ejemplos:</strong> La luz solar, el viento, el agua de lluvia, los bosques y la fauna silvestre.</p>
+        </div>
+        <div class="resource-card">
+            <figure class="resource-figure">
+                <!-- Gota de petróleo -->
+                <svg class="icon warn" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2s6 7 6 11a6 6 0 1 1-12 0c0-4 6-11 6-11z"/></svg>
+            </figure>
+            <h3>2. Recursos No Renovables</h3>
+            <p>Son recursos que existen en cantidades limitadas y que no pueden ser reemplazados o regenerados en una escala de tiempo humana. Una vez que se agotan, no se pueden recuperar.</p>
+            <p><strong>Ejemplos:</strong> El petróleo, el gas natural, el carbón y minerales como el oro, la plata y el hierro.</p>
+        </div>
+        <div class="resource-card">
+            <figure class="resource-figure">
+                <!-- Viento + sol -->
+                <svg class="icon accent" viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12c2.5-1.5 5.5-1.5 8 0 2.5 1.5 5.5 1.5 8 0"/><path d="M5 16c1.7-1 3.8-1 5.5 0M14 6.5a3.5 3.5 0 1 0 7 0a3.5 3.5 0 0 0-7 0Z"/></g></svg>
+            </figure>
+            <h3>3. Recursos Inagotables (o Perpetuos)</h3>
+            <p>Estos recursos son tan abundantes que su disponibilidad no se ve afectada por el uso humano y no corren el riesgo de agotarse. <b>Estos son el foco de nuestro proyecto.</b></p>
+            <p><strong>Ejemplos:</strong> La energía solar y la energía eólica.</p>
+        </div>
+
+        <h2>Por su origen: Bióticos y Abióticos</h2>
+        <div class="resource-card">
+            <figure class="resource-figure">
+                <!-- Hoja y roca -->
+                <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M5 14c0-5 6-8 10-9c-1 4-4 10-9 10h-1Z" opacity="0.9"/><path fill="currentColor" d="M14 13l3-2 4 5h-9l2-3Z" opacity="0.7"/></svg>
+            </figure>
+            <p>Otra forma de clasificar los recursos naturales es por su <strong>origen</strong>:</p>
+            <ul>
+                <li><strong>Bióticos:</strong> Derivan de seres vivos o de su actividad. Incluyen bosques, fauna, suelos fértiles, productos agrícolas y pesca.</li>
+                <li><strong>Abióticos:</strong> Proceden del entorno físico no vivo: agua, aire, minerales, radiación solar, vientos, suelos minerales.</li>
+            </ul>
+        </div>
+
+        <section class="resource-row">
+            <figure class="resource-media">
+                <img class="media-md" src="{{ url_for('static', filename='img/recurso1.jpg') }}" alt="Recursos bióticos: bosque y cuerpos de agua" loading="lazy">
+            </figure>
+            <div class="resource-body">
+                <h3>Vida y materia: dos caras del patrimonio natural</h3>
+                <p>Los <strong>recursos bióticos</strong> sostienen la biodiversidad y la producción de alimentos; los <strong>abióticos</strong> aportan la base física y química para el desarrollo de las sociedades. Su equilibrio permite ecosistemas sanos y economías resilientes.</p>
+            </div>
+        </section>
+
+        <h2>Servicios ecosistémicos</h2>
+        <div class="resource-card">
+            <figure class="resource-figure">
+                <!-- Planeta -->
+                <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="7" stroke="currentColor" stroke-width="1.6" fill="none"/><path stroke="currentColor" stroke-width="1.6" d="M5 12c4-2 10-2 14 0M7 9c2-.7 8-.7 10 0M7 15c2 .7 8 .7 10 0"/></svg>
+            </figure>
+            <p>Los ecosistemas proveen beneficios directos e indirectos fundamentales para la vida:</p>
+            <ul>
+                <li><strong>Provisión:</strong> Agua, alimentos, madera, fibras, recursos genéticos.</li>
+                <li><strong>Regulación:</strong> Clima, calidad del aire, control de inundaciones, polinización.</li>
+                <li><strong>Culturales:</strong> Recreación, turismo, identidad cultural, educación.</li>
+                <li><strong>Soporte:</strong> Formación de suelos, ciclos de nutrientes, producción primaria.</li>
+            </ul>
+        </div>
+
+        <section class="resource-row reverse">
+            <div class="resource-body">
+                <h3>Beneficios que nos sostienen cada día</h3>
+                <p>Desde el agua potable hasta la polinización de cultivos y la regulación del clima, los servicios ecosistémicos son esenciales. Conservarlos garantiza salud, seguridad alimentaria y bienestar cultural.</p>
+            </div>
+            <figure class="resource-media">
+                <img class="media-lg" src="{{ url_for('static', filename='img/recurso2.jpg') }}" alt="Biodiversidad y servicios ecosistémicos" loading="lazy">
+            </figure>
+        </section>
+
+        <h2>Uso sostenible y conservación</h2>
+        <div class="resource-card">
+            <figure class="resource-figure">
+                <!-- Escudo con hoja -->
+                <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2l7 3v6c0 5-3.5 8-7 9c-3.5-1-7-4-7-9V5l7-3Z" opacity="0.85"/><path fill="currentColor" d="M9 13c2-3 5-3 6-1c-1 2-3 3-5 3h-1"/></svg>
+            </figure>
+            <ul>
+                <li><strong>Eficiencia y ahorro:</strong> Reducir el desperdicio de agua, energía y materiales.</li>
+                <li><strong>Manejo responsable:</strong> Pesca y tala con cupos, vedas y planes de restauración.</li>
+                <li><strong>Protección de hábitats:</strong> Áreas protegidas, corredores biológicos, reforestación.</li>
+                <li><strong>Economía circular:</strong> Reutilizar, reparar y reciclar para disminuir extracción.</li>
+            </ul>
+        </div>
+
+        <h2>Amenazas comunes</h2>
+        <div class="resource-card">
+            <figure class="resource-figure">
+                <!-- Triángulo de alerta -->
+                <svg class="icon warn" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 3l10 18H2L12 3Z" opacity="0.9"/><rect x="11" y="9" width="2" height="6" fill="#fff"/><rect x="11" y="16.5" width="2" height="2" fill="#fff"/></svg>
+            </figure>
+            <ul>
+                <li><strong>Deforestación</strong> y cambio de uso del suelo.</li>
+                <li><strong>Contaminación</strong> del agua, suelo y aire.</li>
+                <li><strong>Sobreexplotación</strong> de especies y recursos minerales.</li>
+                <li><strong>Cambio climático</strong> y eventos extremos que deterioran los ecosistemas.</li>
+            </ul>
+        </div>
+
+        <figure class="resource-banner">
+            <img src="{{ url_for('static', filename='img/recurso3.jpg') }}" alt="Paisaje natural de la región Caribe" loading="lazy">
+            <figcaption>Los paisajes regionales nos recuerdan la importancia de conservar los recursos para las generaciones futuras.</figcaption>
+        </figure>
+
+        <h2>Ejemplos en la Región Caribe</h2>
+        <div class="resource-card">
+            <figure class="resource-figure">
+                <!-- Pin de mapa + olas -->
+                <svg class="icon accent" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a6 6 0 0 1 6 6c0 4-6 12-6 12S6 12 6 8a6 6 0 0 1 6-6Zm0 4a2 2 0 1 0 0 4a2 2 0 0 0 0-4Z"/><path fill="currentColor" d="M4 20c2-1 4-1 6 0c2-1 4-1 6 0c2-1 4-1 6 0" opacity="0.6"/></svg>
+            </figure>
+            <ul>
+                <li><strong>Agua:</strong> Ríos como el Guatapurí y cuencas que abastecen a comunidades.</li>
+                <li><strong>Biodiversidad:</strong> Ecosistemas de bosque seco tropical, manglares y serranías.</li>
+                <li><strong>Suelo:</strong> Base de la producción agrícola y ganadera.</li>
+                <li><strong>Clima y vientos:</strong> Factores que influyen en agricultura, pesca y bienestar.</li>
+            </ul>
+        </div>
+
+        <h2>¿Qué podemos hacer?</h2>
+        <div class="resource-card">
+            <figure class="resource-figure">
+                <!-- Corazón/manos -->
+                <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 7c1.5-3 6-3 7.5 0c1 2.2.2 4.7-1.5 6.3L12 19l-6-5.7C4.3 11.7 3.5 9.2 4.5 7C6 4 10.5 4 12 7Z" opacity="0.9"/></svg>
+            </figure>
+            <ul>
+                <li>Ahorrar agua y energía en casa.</li>
+                <li>Separar residuos y reciclar.</li>
+                <li>Apoyar iniciativas de reforestación y cuidado de fuentes hídricas.</li>
+                <li>Consumir de manera responsable productos locales y de temporada.</li>
+            </ul>
+        </div>
+    </article>
+</section>
+{% endblock %}

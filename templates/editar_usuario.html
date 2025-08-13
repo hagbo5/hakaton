@@ -1,0 +1,21 @@
+{% extends 'admin_base.html' %}
+{% block admin_content %}
+<h2>Editar Usuario</h2>
+{% if error %}
+  <div class="perfil-msg error">{{ error }}</div>
+{% endif %}
+<form method="post" class="form-edit-usuario" style="max-width:400px; margin:2rem auto;">
+    <label>Nombre</label>
+    <input type="text" name="nombre" value="{{ usuario.nombre }}" required>
+    <label>Apellido</label>
+    <input type="text" name="apellido" value="{{ usuario.apellido }}" required>
+    <label>Usuario</label>
+    <input type="text" name="username" value="{{ usuario.username }}" required>
+    <label>Email</label>
+    <input type="email" name="email" value="{{ usuario.email }}" required>
+    <label>Teléfono</label>
+    <input type="text" name="telefono" value="{{ usuario.telefono }}" required>
+    <button type="submit" class="cta-button">Guardar Cambios</button>
+    <a href="{{ url_for('admin_usuarios') }}" class="cta-button" style="background:#888; margin-left:1rem;">Cancelar</a>
+</form>
+{% endblock %}

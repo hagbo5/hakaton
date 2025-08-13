@@ -1,0 +1,51 @@
+{% extends 'admin_base.html' %}
+{% block admin_content %}
+<h2>Mensajes de Contacto</h2>
+<div style="margin-bottom:1.5rem;">
+	<input type="text" id="buscador-mensajes" placeholder="Buscar mensaje por nombre, email, texto..." style="width:100%; max-width:340px; padding:0.6rem 1rem; border-radius:7px; border:1px solid #bbb; font-size:1.08rem;">
+</div>
+<p>Aquí puedes ver los mensajes enviados por los usuarios desde el formulario de contacto.</p>
+{% if mensajes and mensajes|length > 0 %}
+<table class="usuarios-table" id="tabla-mensajes" style="width:100%; margin-top:2rem;">
+	<thead>
+		<tr style="background:#f2f2f2;">
+			<th>ID</th>
+			<th>Nombre</th>
+			<th>Email</th>
+			<th>Mensaje</th>
+			<th>Fecha</th>
+		</tr>
+	</thead>
+	<tbody>
+		{% for m in mensajes %}
+		<tr>
+			<td>{{ m.id }}</td>
+			<td>{{ m.nombre }}</td>
+			<td>{{ m.email }}</td>
+			<td>{{ m.mensaje }}</td>
+			<td>{{ m.fecha.strftime('%d/%m/%Y %H:%M') if m.fecha else '' }}</td>
+		</tr>
+		{% endfor %}
+	</tbody>
+</table>
+{% else %}
+<p>No hay mensajes registrados.</p>
+{% endif %}
+<script>
+// Buscador de mensajes
+document.addEventListener('DOMContentLoaded', function() {
+	const input = document.getElementById('buscador-mensajes');
+	const tabla = document.getElementById('tabla-mensajes');
+	if(input && tabla) {
+		input.addEventListener('keyup', function() {
+			const filtro = input.value.toLowerCase();
+			const filas = tabla.querySelectorAll('tbody tr');
+			filas.forEach(function(tr) {
+				const texto = tr.textContent.toLowerCase();
+				tr.style.display = texto.includes(filtro) ? '' : 'none';
+			});
+		});
+	}
+});
+</script>
+{% endblock %}
